@@ -1,5 +1,12 @@
 #include "stdafx.cpp"
+#include "Components/App.hpp"
 
 int main() {
-    LOG("Hello World!");
+    App app = App::getApp();
+
+    while (app.isRunning()) {
+        app.update();
+    }
+
+    return EXIT_SUCCESS;
 }
