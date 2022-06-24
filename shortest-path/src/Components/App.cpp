@@ -18,9 +18,13 @@ bool App::isRunning() {
 
 void App::update() {
     this->window->pollEvent(this->event);
-    if (event.type == sf::Event::Closed) {
-        this->window->close();
-    }
+    this->processEvents();
+
+    this->window->clear(sf::Color::Black);
+
+    // Do Frame Logic & Rendering Here
+
+    this->window->display();
 }
 
 void App::quit() {
@@ -40,4 +44,10 @@ App::State App::getAppState() const {
 
 void App::setAppState(App::State state) {
     this->appState = state;
+}
+
+void App::processEvents() {
+    if (event.type == sf::Event::Closed) {
+        this->window->close();
+    }
 }

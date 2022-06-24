@@ -20,6 +20,7 @@ public:
 private:
     App();
     void setAppState(App::State state);
+    void processEvents();
 
     static App app;
     static App::State appState;
