@@ -8,8 +8,8 @@
 #include <SFML/graphics.hpp>
 
 #define DEBUG 1
-#define WINDOW_HEIGHT 800.f
-#define WINDOW_WIDTH  800.f
+#define WINDOW_HEIGHT 700.f
+#define WINDOW_WIDTH  700.f
 
 #if (DEBUG)
     #include <iostream>

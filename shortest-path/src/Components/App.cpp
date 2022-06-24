@@ -50,4 +50,7 @@ void App::processEvents() {
     if (event.type == sf::Event::Closed) {
         this->window->close();
     }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+        this->window->close();
+    }
 }
