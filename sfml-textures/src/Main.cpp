@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-#define NUM_PICS 9
+#define NUM_PICS 7
 
 // Function Forward Declarations
 void resizeSprite(sf::Sprite* &sprite, const sf::RenderWindow &window, const sf::Vector2u &windowDimensions, sf::Vector2f &scale);
