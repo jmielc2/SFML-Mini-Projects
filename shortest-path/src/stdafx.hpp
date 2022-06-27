@@ -5,6 +5,7 @@
 
 #include <memory>
 #include <string>
+#include <limits>
 #include <SFML/graphics.hpp>
 
 #define DEBUG 1
