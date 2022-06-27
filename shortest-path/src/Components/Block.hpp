@@ -4,17 +4,15 @@
 #define BLOCK_HPP 1
 
 #include "../stdafx.hpp"
+#include "Node.hpp"
 
-class Block {
+class Block : public Node {
 public:
     // General
     enum Type {START, END, NONE, PATH};
     Block(int id);
 
     // Getters & Setters
-    int getID() const;
-    int getDistance() const;
-    void setDistance(int distance);
     Block::Type getType() const;
     void setType(Block::Type type);
 

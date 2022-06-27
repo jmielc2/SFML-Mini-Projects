@@ -3,9 +3,8 @@
 #define DEFAULT_SPRITE sf::RectangleShape(sf::Vector2f(WINDOW_WIDTH / DIM_X, WINDOW_HEIGHT / DIM_Y))
 #define DEFAULT_TYPE Block::Type::NONE
 
-Block::Block(int id) : type(DEFAULT_TYPE) {
+Block::Block(int id) : type(DEFAULT_TYPE), distance(INT_MAX) {
     this->id = id;
-    this->distance = INT_MAX;
     this->sprite = DEFAULT_SPRITE;
     this->sprite.setFillColor(sf::Color::White);
     this->sprite.setOutlineThickness(1.0f);
@@ -13,18 +12,6 @@ Block::Block(int id) : type(DEFAULT_TYPE) {
     int y = id / DIM_X;
     int x = id - (y * DIM_X);
     this->sprite.setPosition(sf::Vector2f(x * (WINDOW_WIDTH / DIM_X), y * (WINDOW_HEIGHT / DIM_Y)));
-}
-
-int Block::getID() const {
-    return this->id;
-}
-
-int Block::getDistance() const {
-    return this->distance;
-}
-
-void Block::setDistance(int distance) {
-    this->distance = distance;
 }
 
 Block::Type Block::getType() const {

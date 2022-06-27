@@ -22,6 +22,7 @@ void App::update() {
     this->window->clear(sf::Color::Black);
 
     // Do Frame Logic & Rendering Here
+    
     this->grid->draw(this->window);
 
     this->window->display();

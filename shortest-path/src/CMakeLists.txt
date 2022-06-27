@@ -9,7 +9,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Define Project
 project(path VERSION 1.0)
 
-add_executable(path Main.cpp stdafx.cpp Components/App.cpp Components/Block.cpp Components/BlockGrid.cpp)
+add_executable(path Main.cpp stdafx.cpp Components/App.cpp Components/Block.cpp Components/BlockGrid.cpp Components/Node.cpp)
 
 # Additional Compile Flags
 set(GCC_ADDITIONAL_FLAGS "-Wall -g")
