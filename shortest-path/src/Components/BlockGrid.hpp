@@ -6,13 +6,23 @@
 #include "../stdafx.hpp"
 #include "Block.hpp"
 
-const unsigned int dimX = 20;
-const unsigned int dimY = 20;
-
 class BlockGrid {
 public:
-    BlockGrid();
+    // Getters & Setters
+    static BlockGrid* getGrid();
+
+    // Functions
+    void draw(sf::RenderWindow* window);
+
+    // Deleted Functions
+    BlockGrid operator=(const BlockGrid& other) = delete;
+    BlockGrid(const BlockGrid& other) = delete;
 private:
+    BlockGrid();
+    ~BlockGrid();
+
+    static BlockGrid* grid;
+    std::vector<Block> blocks;
 };
 
 #endif

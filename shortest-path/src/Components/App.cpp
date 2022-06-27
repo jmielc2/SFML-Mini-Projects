@@ -1,15 +1,14 @@
 #include "App.hpp"
 
 App App::app;
-
 App::State App::appState = App::State::RUNNING;
+BlockGrid* App::grid;
 
 sf::RenderWindow* App::window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Shortest Path Finder", sf::Style::Titlebar | sf::Style::Close);
-
 sf::Event App::event;
 
 App::App() {
-
+    this->grid = BlockGrid::getGrid();
 }
 
 bool App::isRunning() {
@@ -23,6 +22,7 @@ void App::update() {
     this->window->clear(sf::Color::Black);
 
     // Do Frame Logic & Rendering Here
+    this->grid->draw(this->window);
 
     this->window->display();
 }

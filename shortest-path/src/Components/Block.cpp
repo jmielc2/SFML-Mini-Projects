@@ -1,6 +1,6 @@
 #include "Block.hpp"
 
-#define DEFAULT_SPRITE sf::RectangleShape(sf::Vector2f(WINDOW_WIDTH / 20.0f, WINDOW_HEIGHT / 20.0f))
+#define DEFAULT_SPRITE sf::RectangleShape(sf::Vector2f(WINDOW_WIDTH / DIM_X, WINDOW_HEIGHT / DIM_Y))
 #define DEFAULT_TYPE Block::Type::NONE
 
 Block::Block(int id) : type(DEFAULT_TYPE) {
@@ -10,9 +10,9 @@ Block::Block(int id) : type(DEFAULT_TYPE) {
     this->sprite.setFillColor(sf::Color::White);
     this->sprite.setOutlineThickness(1.0f);
     this->sprite.setOutlineColor(sf::Color::Black);
-    float y = id % 20;
-    float x = id - (y * 20.0f);
-    this->sprite.setPosition(sf::Vector2f(x * 35.0f, y * 35.0f));
+    int y = id / DIM_X;
+    int x = id - (y * DIM_X);
+    this->sprite.setPosition(sf::Vector2f(x * (WINDOW_WIDTH / DIM_X), y * (WINDOW_HEIGHT / DIM_Y)));
 }
 
 int Block::getID() const {

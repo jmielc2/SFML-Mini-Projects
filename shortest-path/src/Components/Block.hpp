@@ -7,6 +7,7 @@
 
 class Block {
 public:
+    // General
     enum Type {START, END, NONE, PATH};
     Block(int id);
 
@@ -19,6 +20,8 @@ public:
 
     // Functions
     void draw(sf::RenderWindow *window);
+
+    // Deleted Functions
     Block operator=(const Block& other) = delete;
 private:
     int id;
