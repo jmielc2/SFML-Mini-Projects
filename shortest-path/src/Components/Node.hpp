@@ -9,7 +9,14 @@ public:
     int getID() const;
     int getDistance() const;
     void setDistance(int distance);
-private:
+    bool operator()(const Node& other);
+
+    class NodeHash {
+        int operator()(const Node& node) {
+            return node.getID();
+        }
+    };
+protected:
     int id;
     int distance;
 };

@@ -6,7 +6,7 @@
 #include "../stdafx.hpp"
 #include "Node.hpp"
 
-class Block : public Node {
+class Block : private Node {
 public:
     // General
     enum Type {START, END, NONE, PATH};
@@ -22,8 +22,6 @@ public:
     // Deleted Functions
     Block operator=(const Block& other) = delete;
 private:
-    int id;
-    int distance;
     Block::Type type;
     sf::RectangleShape sprite;
 };

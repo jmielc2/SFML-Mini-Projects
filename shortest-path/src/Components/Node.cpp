@@ -11,3 +11,7 @@ int Node::getDistance() const {
 void Node::setDistance(int distance) {
     this->distance = distance;
 }
+
+bool Node::operator()(const Node& other) {
+    return this->getDistance() < other.getDistance();
+}
