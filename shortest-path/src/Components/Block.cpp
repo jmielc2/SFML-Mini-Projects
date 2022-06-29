@@ -26,3 +26,27 @@ void Block::setType(Block::Type type) {
 void Block::draw(sf::RenderWindow* window) {
     window->draw(this->sprite);
 }
+
+void Block::reset() {
+    this->setType(DEFAULT_TYPE);
+    this->sprite.setFillColor(sf::Color::White);
+}
+
+void Block::mouseUpdate(MouseState state) {
+    switch (state) {
+        case(MouseState::HOVER):
+            if (this->getType() == Block::Type::NONE) {
+                this->sprite.setFillColor(sf::Color(0xD2D1D0ff));
+            }
+            break;
+        case(MouseState::LEFT_CLICK):
+            break;
+        case(MouseState::RIGHT_CLICK):
+            Block::Type curType = this->getType();
+            if (curType != Block::Type::START && curType != Block::Type::END) {
+                this->setType(Block::Type::WALL);
+                this->sprite.setFillColor(sf::Color::Black);
+            }
+            break;
+    }
+}

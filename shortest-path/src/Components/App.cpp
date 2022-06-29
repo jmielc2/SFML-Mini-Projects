@@ -17,12 +17,11 @@ bool App::isRunning() {
 
 void App::update() {
     this->window->pollEvent(this->event);
-    this->processEvents();
+    this->processKeyEvents();
+    this->processMouseEvents();
 
     this->window->clear(sf::Color::Black);
 
-    // Do Frame Logic & Rendering Here
-    
     this->grid->draw(this->window);
 
     this->window->display();
@@ -47,11 +46,27 @@ void App::setAppState(App::State state) {
     this->appState = state;
 }
 
-void App::processEvents() {
+void App::processKeyEvents() {
     if (event.type == sf::Event::Closed) {
         this->window->close();
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
         this->window->close();
     }
+}
+
+void App::processMouseEvents() {
+    sf::Vector2i pos = sf::Mouse::getPosition(*this->window);
+    if (pos.x < 0 || pos.x > WINDOW_WIDTH || pos.y < 0 || pos.y > WINDOW_HEIGHT) {
+        return;
+    }
+
+
+    MouseState mouseState = MouseState::HOVER;
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+        mouseState = MouseState::LEFT_CLICK;
+    } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
+        mouseState = MouseState::RIGHT_CLICK;
+    }
+    App::grid->mouseUpdate(pos, mouseState);
 }

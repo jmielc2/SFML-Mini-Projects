@@ -1,4 +1,4 @@
-#include "stdafx.cpp"
+#include "stdafx.hpp"
 #include "Components/App.hpp"
 
 int main() {

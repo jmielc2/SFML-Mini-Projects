@@ -14,8 +14,9 @@
 #define DEBUG 1
 #define WINDOW_HEIGHT 700.f
 #define WINDOW_WIDTH  700.f
-#define DIM_X 20
-#define DIM_Y 20
+#define DIM_X 25
+#define DIM_Y 25
+enum MouseState {HOVER, RIGHT_CLICK, LEFT_CLICK};
 
 #if (DEBUG)
     #include <iostream>

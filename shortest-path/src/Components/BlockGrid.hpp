@@ -13,6 +13,7 @@ public:
 
     // Functions
     void draw(sf::RenderWindow* window);
+    void mouseUpdate(sf::Vector2i &pos, MouseState state);
 
     // Deleted Functions
     BlockGrid operator=(const BlockGrid& other) = delete;
@@ -22,7 +23,8 @@ private:
     ~BlockGrid();
 
     static BlockGrid* grid;
-    std::vector<Block> blocks;
+    static std::vector<Block*> blocks;
+    static std::vector<Block*> resetBlocks; 
 };
 
 #endif

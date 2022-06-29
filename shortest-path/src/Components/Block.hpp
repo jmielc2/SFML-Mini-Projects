@@ -9,7 +9,7 @@
 class Block : private Node {
 public:
     // General
-    enum Type {START, END, NONE, PATH};
+    enum Type {START, END, NONE, PATH, WALL};
     Block(int id);
 
     // Getters & Setters
@@ -18,9 +18,12 @@ public:
 
     // Functions
     void draw(sf::RenderWindow *window);
+    void reset();
+    void mouseUpdate(MouseState state);
 
     // Deleted Functions
     Block operator=(const Block& other) = delete;
+    Block(const Block& other) = delete;
 private:
     Block::Type type;
     sf::RectangleShape sprite;

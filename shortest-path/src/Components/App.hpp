@@ -6,6 +6,7 @@
 #include "../stdafx.hpp"
 #include "BlockGrid.hpp"
 
+
 class App {
 public:
     enum State {RUNNING, CLOSED};
@@ -21,7 +22,8 @@ public:
 private:
     App();
     void setAppState(App::State state);
-    void processEvents();
+    void processKeyEvents();
+    void processMouseEvents();
 
     static App app;
     static App::State appState;
