@@ -57,10 +57,9 @@ void App::processKeyEvents() {
 
 void App::processMouseEvents() {
     sf::Vector2i pos = sf::Mouse::getPosition(*this->window);
-    if (pos.x < 0 || pos.x > WINDOW_WIDTH || pos.y < 0 || pos.y > WINDOW_HEIGHT) {
+    if (pos.x < 0 || pos.x >= WINDOW_WIDTH || pos.y < 0 || pos.y >= WINDOW_HEIGHT) {
         return;
     }
-
 
     MouseState mouseState = MouseState::HOVER;
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {

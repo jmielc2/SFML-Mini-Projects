@@ -12,8 +12,8 @@
 #include <SFML/graphics.hpp>
 
 #define DEBUG 1
-#define WINDOW_HEIGHT 700.f
-#define WINDOW_WIDTH  700.f
+#define WINDOW_HEIGHT 700
+#define WINDOW_WIDTH  700
 #define DIM_X 25
 #define DIM_Y 25
 enum MouseState {HOVER, RIGHT_CLICK, LEFT_CLICK};
