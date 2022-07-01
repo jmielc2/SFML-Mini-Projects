@@ -4,7 +4,7 @@
 #define APP_HPP 1
 
 #include "../stdafx.hpp"
-#include "BlockGrid.hpp"
+#include "../Components/Grid.hpp"
 
 
 class App {
@@ -27,7 +27,7 @@ private:
 
     static App app;
     static App::State appState;
-    static BlockGrid* grid;
+    static Grid* grid;
     
     static sf::RenderWindow* window;
     static sf::Event event;

@@ -2,13 +2,13 @@
 
 App App::app;
 App::State App::appState = App::State::RUNNING;
-BlockGrid* App::grid;
+Grid* App::grid;
 
 sf::RenderWindow* App::window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Shortest Path Finder", sf::Style::Titlebar | sf::Style::Close);
 sf::Event App::event;
 
 App::App() {
-    this->grid = BlockGrid::getGrid();
+    this->grid = Grid::getGrid();
 }
 
 bool App::isRunning() {

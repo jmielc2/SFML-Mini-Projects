@@ -7,10 +7,11 @@
 #include "Block.hpp"
 #include "../Tools/SP_Algorithm.hpp"
 
-class BlockGrid {
+// template <typename E>
+class Grid {
 public:
     // Getters & Setters
-    static BlockGrid* getGrid();
+    static Grid* getGrid();
 
     // Functions
     void draw(sf::RenderWindow* window);
@@ -18,13 +19,13 @@ public:
     void mouseUpdate(sf::Vector2i &pos, MouseState state);
 
     // Deleted Functions
-    BlockGrid operator=(const BlockGrid& other) = delete;
-    BlockGrid(const BlockGrid& other) = delete;
+    Grid operator=(const Grid& other) = delete;
+    Grid(const Grid& other) = delete;
 private:
-    BlockGrid();
-    ~BlockGrid();
+    Grid();
+    ~Grid();
 
-    static BlockGrid* grid;
+    static Grid* grid;
     static std::vector<Node*> blocks;
     static std::vector<Node*> resetBlocks; 
 };

@@ -54,16 +54,16 @@ std::vector<Node*> SP_Algorithm::shortestPath(Node* start, Node* end, const std:
 std::vector<Node*> SP_Algorithm::getNodeNeighbors(const Node* cur, const std::vector<Node*> &grid) {
     std::vector<Node*> neighbors;
     int index = cur->getID();
-    if (index != 0 && index % DIM_X != 0) {
+    if (index != 0 && index % DIM_X != 0 && grid.at(index - 1)->getType() != Node::Type::WALL) {
         neighbors.push_back(grid.at(index - 1));
     }
-    if (index != DIM_X * DIM_Y - 1 && index % DIM_X != DIM_X - 1) {
+    if (index != DIM_X * DIM_Y - 1 && index % DIM_X != DIM_X - 1 && grid.at(index + 1)->getType() != Node::Type::WALL) {
         neighbors.push_back(grid.at(index + 1));
     }
-    if (index >= DIM_X) {
+    if (index >= DIM_X && grid.at(index - DIM_X)->getType() != Node::Type::WALL) {
         neighbors.push_back(grid.at(index - DIM_X));
     }
-    if (index < (DIM_Y - 1) * DIM_X) {
+    if (index < (DIM_Y - 1) * DIM_X && grid.at(index + DIM_X)->getType() != Node::Type::WALL) {
         neighbors.push_back(grid.at(index + DIM_X));
     }
 

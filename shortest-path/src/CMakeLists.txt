@@ -9,8 +9,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Define Project
 project(path VERSION 1.0)
 
-add_executable(path Main.cpp stdafx.cpp 
-                    Components/App.cpp Components/Block.cpp Components/BlockGrid.cpp Components/Node.cpp
+add_executable(path Main.cpp stdafx.cpp
+                    Controllers/App.cpp Controllers/GridController.cpp
+                    Components/Block.cpp Components/Grid.cpp Components/Node.cpp
                     Tools/SP_Algorithm.cpp)
 
 # Additional Compile Flags
@@ -25,9 +26,6 @@ add_definitions(${GCC_ADDITIONAL_FLAGS})
 # Find the SFML Package (needs to be in the PATH)
 
 # add_library(SFML SHARED IMPORTED)
-# set_target_properties(SFML PROPERTIES IMPORTED_LOCATION "${CMAKE_SRC_DIR}/../../lib/" INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/../../include/")
-# target_link_libraries(path SFML)
-
 find_package(SFML 2.5 COMPONENTS graphics system window REQUIRED)
 target_link_libraries(path sfml-graphics sfml-system sfml-window)
 

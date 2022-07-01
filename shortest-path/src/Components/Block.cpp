@@ -1,9 +1,9 @@
 #include "Block.hpp"
 
 #define DEFAULT_SPRITE sf::RectangleShape(sf::Vector2f(WINDOW_WIDTH / DIM_X, WINDOW_HEIGHT / DIM_Y))
-#define DEFAULT_TYPE Block::Type::NONE
+#define DEFAULT_TYPE Node::Type::NONE
 
-Block::Block(int id) : type(DEFAULT_TYPE) {
+Block::Block(int id) {
     this->id = id;
     this->distance = INT_MAX;
     this->sprite = DEFAULT_SPRITE;
@@ -13,14 +13,7 @@ Block::Block(int id) : type(DEFAULT_TYPE) {
     int y = id / DIM_X;
     int x = id - (y * DIM_X);
     this->sprite.setPosition(sf::Vector2f(x * (WINDOW_WIDTH / DIM_X), y * (WINDOW_HEIGHT / DIM_Y)));
-}
-
-Block::Type Block::getType() const {
-    return this->type;
-}
-
-void Block::setType(Block::Type type) {
-    this->type = type;
+    this->setType(DEFAULT_TYPE);
 }
 
 void Block::draw(sf::RenderWindow* window) {
@@ -33,40 +26,40 @@ void Block::reset() {
     this->sprite.setFillColor(sf::Color::White);
 }
 
-void Block::update(Block::Type type) {
+void Block::update(Node::Type type) {
     this->setType(type);
     switch (type) {
-        case(Block::Type::END):
+        case(Node::Type::END):
             this->sprite.setFillColor(sf::Color::Red);
             break;
-        case(Block::Type::NONE):
+        case(Node::Type::NONE):
             this->sprite.setFillColor(sf::Color::White);
             break;
-        case(Block::Type::PATH):
+        case(Node::Type::PATH):
             this->sprite.setFillColor(sf::Color::Blue);
             break;
-        case(Block::Type::START):
+        case(Node::Type::START):
             this->sprite.setFillColor(sf::Color::Green);
             break;
-        case(Block::Type::WALL):
+        case(Node::Type::WALL):
             this->sprite.setFillColor(sf::Color::Black);
             break;
     }
 }
 
 void Block::mouseUpdate(MouseState state) {
-    Block::Type curType = this->getType();
+    Node::Type curType = this->getType();
     switch (state) {
         case(MouseState::HOVER):
-            if (curType == Block::Type::NONE) {
+            if (curType == Node::Type::NONE) {
                 this->sprite.setFillColor(sf::Color(0xD2D1D0ff));
             }
             break;
         case(MouseState::LEFT_CLICK):
             break;
         case(MouseState::RIGHT_CLICK):
-            if (curType != Block::Type::START && curType != Block::Type::END) {
-                this->update(Block::Type::WALL);
+            if (curType != Node::Type::START && curType != Node::Type::END) {
+                this->update(Node::Type::WALL);
             }
             break;
     }

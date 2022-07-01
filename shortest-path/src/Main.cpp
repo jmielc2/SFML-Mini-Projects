@@ -1,5 +1,5 @@
 #include "stdafx.hpp"
-#include "Components/App.hpp"
+#include "Controllers/App.hpp"
 
 int main() {
     App app = App::getApp();

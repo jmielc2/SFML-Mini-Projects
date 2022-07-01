@@ -4,6 +4,14 @@ int Node::getID() const {
     return this->id;
 }
 
+Node::Type Node::getType() const {
+    return this->type;
+}
+
+void Node::setType(Node::Type type) {
+    this->type = type;
+}
+
 int Node::getDistance() const {
     return this->distance;
 }
@@ -25,6 +33,10 @@ void Node::draw(sf::RenderWindow *window) {
 }
 
 void Node::reset() {
+    return;
+}
+
+void Node::update(Node::Type type) {
     return;
 }
 
