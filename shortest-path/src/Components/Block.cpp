@@ -33,20 +33,40 @@ void Block::reset() {
     this->sprite.setFillColor(sf::Color::White);
 }
 
+void Block::update(Block::Type type) {
+    this->setType(type);
+    switch (type) {
+        case(Block::Type::END):
+            this->sprite.setFillColor(sf::Color::Red);
+            break;
+        case(Block::Type::NONE):
+            this->sprite.setFillColor(sf::Color::White);
+            break;
+        case(Block::Type::PATH):
+            this->sprite.setFillColor(sf::Color::Blue);
+            break;
+        case(Block::Type::START):
+            this->sprite.setFillColor(sf::Color::Green);
+            break;
+        case(Block::Type::WALL):
+            this->sprite.setFillColor(sf::Color::Black);
+            break;
+    }
+}
+
 void Block::mouseUpdate(MouseState state) {
+    Block::Type curType = this->getType();
     switch (state) {
         case(MouseState::HOVER):
-            if (this->getType() == Block::Type::NONE) {
+            if (curType == Block::Type::NONE) {
                 this->sprite.setFillColor(sf::Color(0xD2D1D0ff));
             }
             break;
         case(MouseState::LEFT_CLICK):
             break;
         case(MouseState::RIGHT_CLICK):
-            Block::Type curType = this->getType();
             if (curType != Block::Type::START && curType != Block::Type::END) {
-                this->setType(Block::Type::WALL);
-                this->sprite.setFillColor(sf::Color::Black);
+                this->update(Block::Type::WALL);
             }
             break;
     }

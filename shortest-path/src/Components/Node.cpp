@@ -19,3 +19,15 @@ Node* Node::getParent() const {
 void Node::setParent(Node* parent) {
     this->parent = parent;
 }
+
+void Node::draw(sf::RenderWindow *window) {
+    return;
+}
+
+void Node::reset() {
+    return;
+}
+
+Node::~Node() {
+    return;
+}

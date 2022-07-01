@@ -4,7 +4,7 @@
 #define BLOCK_HPP 1
 
 #include "../stdafx.hpp"
-// #include "Node.hpp"
+#include "Node.hpp"
 
 class Block : public Node {
 public:
@@ -19,6 +19,7 @@ public:
     // Functions
     void draw(sf::RenderWindow *window);
     void reset();
+    void update(Block::Type type);
     void mouseUpdate(MouseState state);
 
     // Deleted Functions

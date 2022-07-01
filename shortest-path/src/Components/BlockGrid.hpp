@@ -25,8 +25,8 @@ private:
     ~BlockGrid();
 
     static BlockGrid* grid;
-    static std::vector<Block*> blocks;
-    static std::vector<Block*> resetBlocks; 
+    static std::vector<Node*> blocks;
+    static std::vector<Node*> resetBlocks; 
 };
 
 #endif

@@ -7,10 +7,8 @@
 #include <limits>
 #include <vector>
 #include <queue>
-#include <unordered_set>
 #include <functional>
 #include <SFML/graphics.hpp>
-#include "Components/Node.hpp"
 
 #define DEBUG 1
 #define WINDOW_HEIGHT 700

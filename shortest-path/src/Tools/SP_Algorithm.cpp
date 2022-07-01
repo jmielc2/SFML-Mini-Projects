@@ -2,8 +2,6 @@
 
 std::priority_queue<Node*, std::vector<Node*>, Node::NodeComparator> SP_Algorithm::unvisited;
 
-std::vector<Node*> getNodeNeighbors(const Node* cur, const std::vector<Node*> &grid);
-
 void SP_Algorithm::init(Node* start, const std::vector<Node*> &grid) {
     for (Node* node : grid) {
         node->setDistance(INT_MAX);
@@ -20,40 +18,40 @@ void SP_Algorithm::clean() {
     SP_Algorithm::unvisited.swap(temp);
 }
 
-void SP_Algorithm::shortestPath(Node* start, Node* end, const std::vector<Node*> &grid) {
-    SP_Algorithm::init(start, grid);
+std::vector<Node*> SP_Algorithm::shortestPath(Node* start, Node* end, const std::vector<Node*> &grid) {
+        SP_Algorithm::init(start, grid);
+        std::vector<Node*> path;
 
-    while (!SP_Algorithm::unvisited.empty()) {
-        Node* cur = SP_Algorithm::unvisited.top();
-        LOG("CUR=" + std::to_string(cur->getID()));
-        SP_Algorithm::unvisited.pop();
-        if (cur->getID() == end->getID()) {
-            break;
-        }
+        while (!SP_Algorithm::unvisited.empty()) {
+            Node* cur = SP_Algorithm::unvisited.top();
+            SP_Algorithm::unvisited.pop();
+            if (cur->getID() == end->getID()) {
+                break;
+            }
 
-        std::vector<Node*> neighbors = getNodeNeighbors(cur, grid);
-        for (Node* neighbor : neighbors) {
-            int altDistance = 1 + cur->getDistance();
-            if (altDistance < neighbor->getDistance() && cur->getDistance() != INT_MAX) {
-                neighbor->setDistance(altDistance);
-                neighbor->setParent(cur);
-                SP_Algorithm::unvisited.emplace(neighbor);
+            std::vector<Node*> neighbors = SP_Algorithm::getNodeNeighbors(cur, grid);
+            for (Node* neighbor : neighbors) {
+                int altDistance = 1 + cur->getDistance();
+                if (altDistance < neighbor->getDistance() && cur->getDistance() != INT_MAX) {
+                    neighbor->setDistance(altDistance);
+                    neighbor->setParent(cur);
+                    SP_Algorithm::unvisited.emplace(neighbor);
+                }
             }
         }
+
+        Node* cur = end, *prev;
+        do {
+            prev = cur;
+            path.push_back(cur);
+            cur = cur->getParent();
+        } while (prev->getParent() != nullptr && prev != start);
+
+        SP_Algorithm::clean();
+        return path;
     }
 
-    Node* cur = end, *prev;
-    do {
-        prev = cur;
-        LOG(std::to_string(cur->getID()) + ": " + std::to_string(cur->getDistance()));
-        cur = cur->getParent();
-    } while (prev->getParent() != nullptr && prev != start);
-    LOG("")
-
-    SP_Algorithm::clean();
-}
-
-std::vector<Node*> getNodeNeighbors(const Node* cur, const std::vector<Node*> &grid) {
+std::vector<Node*> SP_Algorithm::getNodeNeighbors(const Node* cur, const std::vector<Node*> &grid) {
     std::vector<Node*> neighbors;
     int index = cur->getID();
     if (index != 0 && index % DIM_X != 0) {
@@ -71,3 +69,4 @@ std::vector<Node*> getNodeNeighbors(const Node* cur, const std::vector<Node*> &g
 
     return neighbors;
 }
+

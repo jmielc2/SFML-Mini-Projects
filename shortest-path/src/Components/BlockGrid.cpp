@@ -1,7 +1,7 @@
 #include "BlockGrid.hpp"
 
-std::vector<Block*> BlockGrid::blocks;
-std::vector<Block*> BlockGrid::resetBlocks;
+std::vector<Node*> BlockGrid::blocks;
+std::vector<Node*> BlockGrid::resetBlocks;
 BlockGrid* BlockGrid::grid = new BlockGrid();
 
 BlockGrid::BlockGrid() {
@@ -11,7 +11,7 @@ BlockGrid::BlockGrid() {
 }
 
 BlockGrid::~BlockGrid() {
-    for (Block *block : BlockGrid::blocks) {
+    for (Node *block : BlockGrid::blocks) {
         delete block;
     }
     return;
@@ -22,28 +22,28 @@ BlockGrid* BlockGrid::getGrid() {
 }
 
 void BlockGrid::draw(sf::RenderWindow *window) {
-    for (Block* block : BlockGrid::blocks) {
+    for (Node* block : BlockGrid::blocks) {
         block->draw(window);
     }
 }
 
 void BlockGrid::update() {
-    std::vector<Node*> temp;
-    for (Block* block : BlockGrid::blocks) {
-        temp.push_back(block);
+    std::vector<Node*> path = SP_Algorithm::shortestPath(BlockGrid::blocks.at(0), BlockGrid::blocks.at(BlockGrid::blocks.size() - 1), BlockGrid::blocks);
+    for (Node* node : path) {
+        Block* block = dynamic_cast<Block*>(node);
+        block->update(Block::Type::PATH);
     }
-    SP_Algorithm::shortestPath(BlockGrid::blocks.at(0), BlockGrid::blocks.at(BlockGrid::blocks.size() - 1), temp);
 }
 
 void BlockGrid::mouseUpdate(sf::Vector2i &pos, MouseState state) {
-    for (Block* block : BlockGrid::resetBlocks) {
+    for (Node* block : BlockGrid::resetBlocks) {
         block->reset();
     }
     BlockGrid::resetBlocks.clear();
 
     int x = pos.x / (WINDOW_WIDTH / DIM_X);
     int y = pos.y / (WINDOW_HEIGHT / DIM_Y);
-    Block* curBlock = this->blocks.at(y * DIM_X + x);
+    Block* curBlock = dynamic_cast<Block*>(this->blocks.at(y * DIM_X + x));
     curBlock->mouseUpdate(state);
 
     if (curBlock->getType() == Block::Type::NONE) {
