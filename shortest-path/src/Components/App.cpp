@@ -52,6 +52,8 @@ void App::processKeyEvents() {
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
         this->window->close();
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+        App::grid->update();
     }
 }
 

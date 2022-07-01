@@ -29,6 +29,7 @@ void Block::draw(sf::RenderWindow* window) {
 
 void Block::reset() {
     this->setType(DEFAULT_TYPE);
+    this->setDistance(INT_MAX);
     this->sprite.setFillColor(sf::Color::White);
 }
 

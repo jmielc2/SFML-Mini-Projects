@@ -4,9 +4,9 @@
 #define BLOCK_HPP 1
 
 #include "../stdafx.hpp"
-#include "Node.hpp"
+// #include "Node.hpp"
 
-class Block : private Node {
+class Block : public Node {
 public:
     // General
     enum Type {START, END, NONE, PATH, WALL};

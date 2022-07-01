@@ -27,6 +27,14 @@ void BlockGrid::draw(sf::RenderWindow *window) {
     }
 }
 
+void BlockGrid::update() {
+    std::vector<Node*> temp;
+    for (Block* block : BlockGrid::blocks) {
+        temp.push_back(block);
+    }
+    SP_Algorithm::shortestPath(BlockGrid::blocks.at(0), BlockGrid::blocks.at(BlockGrid::blocks.size() - 1), temp);
+}
+
 void BlockGrid::mouseUpdate(sf::Vector2i &pos, MouseState state) {
     for (Block* block : BlockGrid::resetBlocks) {
         block->reset();

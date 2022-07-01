@@ -12,6 +12,10 @@ void Node::setDistance(int distance) {
     this->distance = distance;
 }
 
-bool Node::operator()(const Node& other) {
-    return this->getDistance() < other.getDistance();
+Node* Node::getParent() const {
+    return this->parent;
+}
+
+void Node::setParent(Node* parent) {
+    this->parent = parent;
 }

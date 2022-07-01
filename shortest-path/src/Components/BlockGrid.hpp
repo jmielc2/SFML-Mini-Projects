@@ -5,6 +5,7 @@
 
 #include "../stdafx.hpp"
 #include "Block.hpp"
+#include "../Tools/SP_Algorithm.hpp"
 
 class BlockGrid {
 public:
@@ -13,6 +14,7 @@ public:
 
     // Functions
     void draw(sf::RenderWindow* window);
+    void update();
     void mouseUpdate(sf::Vector2i &pos, MouseState state);
 
     // Deleted Functions
