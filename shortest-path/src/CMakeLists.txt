@@ -14,11 +14,22 @@ add_executable(path Main.cpp stdafx.cpp
                     Tools/SP_Algorithm.cpp)
 
 # Additional Compile Flags
-set(GCC_ADDITIONAL_FLAGS "-Wall -g")
+option(RELEASE "Build release version" OFF)
+if (RELEASE)
+    set(GCC_ADDITIONAL_FLAGS "-Wall -g -O2")
+else()
+    set(GCC_ADDITIONAL_FLAGS "-Wall -g")
+endif()
 add_definitions(${GCC_ADDITIONAL_FLAGS})
 
 # Find the SFML Package (needs to be in the PATH)
+
+# add_library(SFML SHARED IMPORTED)
+# set_target_properties(SFML PROPERTIES IMPORTED_LOCATION "${CMAKE_SRC_DIR}/../../lib/" INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_SOURCE_DIR}/../../include/")
+# target_link_libraries(path SFML)
+
 find_package(SFML 2.5 COMPONENTS graphics system window REQUIRED)
 target_link_libraries(path sfml-graphics sfml-system sfml-window)
+
 
 
