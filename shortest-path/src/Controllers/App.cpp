@@ -2,13 +2,13 @@
 
 App App::app;
 App::State App::appState = App::State::RUNNING;
-Grid* App::grid;
+GridController<Block> App::gridController;
 
 sf::RenderWindow* App::window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Shortest Path Finder", sf::Style::Titlebar | sf::Style::Close);
 sf::Event App::event;
 
 App::App() {
-    this->grid = Grid::getGrid();
+    return;
 }
 
 bool App::isRunning() {
@@ -22,7 +22,7 @@ void App::update() {
 
     this->window->clear(sf::Color::Black);
 
-    this->grid->draw(this->window);
+    App::gridController.drawGrid(this->window);
 
     this->window->display();
 }
@@ -53,7 +53,7 @@ void App::processKeyEvents() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
         this->window->close();
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-        App::grid->update();
+        App::gridController.findPath();
     }
 }
 
@@ -69,5 +69,5 @@ void App::processMouseEvents() {
     } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
         mouseState = MouseState::RIGHT_CLICK;
     }
-    App::grid->mouseUpdate(pos, mouseState);
+    App::gridController.mouseUpdate(pos, mouseState);
 }

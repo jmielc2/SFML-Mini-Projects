@@ -24,15 +24,9 @@ public:
     virtual void draw(sf::RenderWindow* window);
     virtual void reset();
     virtual void update(Node::Type type);
+    virtual void mouseUpdate(sf::Vector2i &pos, MouseState state);
 
     virtual ~Node();
-
-    class NodeComparator {
-    public:
-        bool operator()(const Node* first, const Node* second) {
-            return first->getDistance() >= second->getDistance();
-        }
-    };
 protected:
     int id;
     int distance;

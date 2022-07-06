@@ -47,7 +47,7 @@ void Block::update(Node::Type type) {
     }
 }
 
-void Block::mouseUpdate(MouseState state) {
+void Block::mouseUpdate(sf::Vector2i &pos, MouseState state) {
     Node::Type curType = this->getType();
     switch (state) {
         case(MouseState::HOVER):

@@ -24,8 +24,6 @@ endif()
 add_definitions(${GCC_ADDITIONAL_FLAGS})
 
 # Find the SFML Package (needs to be in the PATH)
-
-# add_library(SFML SHARED IMPORTED)
 find_package(SFML 2.5 COMPONENTS graphics system window REQUIRED)
 target_link_libraries(path sfml-graphics sfml-system sfml-window)
 

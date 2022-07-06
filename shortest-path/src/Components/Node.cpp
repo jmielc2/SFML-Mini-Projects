@@ -40,6 +40,10 @@ void Node::update(Node::Type type) {
     return;
 }
 
+void Node::mouseUpdate(sf::Vector2i &pos, MouseState state) {
+    return;
+}
+
 Node::~Node() {
     return;
 }
