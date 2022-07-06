@@ -17,13 +17,11 @@ bool App::isRunning() {
 
 void App::update() {
     this->window->pollEvent(this->event);
-    this->processKeyEvents();
     this->processMouseEvents();
+    this->processKeyEvents();
 
     this->window->clear(sf::Color::Black);
-
     App::gridController.drawGrid(this->window);
-
     this->window->display();
 }
 

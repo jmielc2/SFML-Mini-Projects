@@ -4,7 +4,6 @@
 #define BLOCK_GRID_HPP 1
 
 #include "../stdafx.hpp"
-#include "../Tools/SP_Algorithm.hpp"
 
 template <typename E>
 class Grid {

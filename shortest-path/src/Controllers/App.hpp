@@ -7,7 +7,6 @@
 #include "GridController.hpp"
 #include "../Components/Block.hpp"
 
-
 class App {
 public:
     enum State {RUNNING, CLOSED};
