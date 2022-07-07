@@ -6,14 +6,6 @@
 #include "../stdafx.hpp"
 #include "../Components/Node.hpp"
 
-template <typename E>
-class NodeComparator {
-public:
-    bool operator()(const E* first, const E* second) {
-        return first->getDistance() >= second->getDistance();
-    }
-};
-
 class SP_Algorithm {
 public:
     template <typename E> static std::vector<E*> shortestPath(E* start, E* end, const std::vector<E*> &grid);
@@ -26,7 +18,7 @@ private:
 ////////////////////////////////////////////////////////////
 
 template <typename E> std::vector<E*> SP_Algorithm::shortestPath(E* start, E* end, const std::vector<E*> &grid) {
-    std::priority_queue<E*, std::vector<E*>, NodeComparator<E>> unvisited;
+    std::priority_queue<E*, std::vector<E*>, Node::NodeComparator<E>> unvisited;
     for (E* node : grid) {
         if (node == start) {
             node->setDistance(0);
@@ -70,16 +62,16 @@ template <typename E> std::vector<E*> SP_Algorithm::shortestPath(E* start, E* en
 template <typename E> std::vector<E*> SP_Algorithm::getNodeNeighbors(const E* cur, const std::vector<E*> &grid) {
     std::vector<E*> neighbors;
     int index = cur->getID();
-    if (index != 0 && index % DIM_X != 0 && grid.at(index - 1)->getType() != E::Type::WALL) {
+    if (index % DIM_X != 0 && grid.at(index - 1)->getType() != Node::Type::WALL) {
         neighbors.push_back(grid.at(index - 1));
     }
-    if (index != DIM_X * DIM_Y - 1 && index % DIM_X != DIM_X - 1 && grid.at(index + 1)->getType() != E::Type::WALL) {
+    if (index % DIM_X != DIM_X - 1 && grid.at(index + 1)->getType() != Node::Type::WALL) {
         neighbors.push_back(grid.at(index + 1));
     }
-    if (index >= DIM_X && grid.at(index - DIM_X)->getType() != E::Type::WALL) {
+    if (index >= DIM_X && grid.at(index - DIM_X)->getType() != Node::Type::WALL) {
         neighbors.push_back(grid.at(index - DIM_X));
     }
-    if (index < (DIM_Y - 1) * DIM_X && grid.at(index + DIM_X)->getType() != E::Type::WALL) {
+    if (index < (DIM_Y - 1) * DIM_X && grid.at(index + DIM_X)->getType() != Node::Type::WALL) {
         neighbors.push_back(grid.at(index + DIM_X));
     }
 

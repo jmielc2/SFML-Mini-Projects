@@ -49,6 +49,9 @@ void Block::update(Node::Type type) {
 
 void Block::mouseUpdate(sf::Vector2i &pos, MouseState state) {
     Node::Type curType = this->getType();
+    if (this->controller->getPhase() != GridController<Block>::Phase::SETUP) {
+        state = MouseState::HOVER;
+    }
     switch (state) {
         case(MouseState::HOVER):
             if (curType == Node::Type::NONE) {
@@ -56,6 +59,23 @@ void Block::mouseUpdate(sf::Vector2i &pos, MouseState state) {
             }
             break;
         case(MouseState::LEFT_CLICK):
+            if (this->controller->hasStart()) {
+                if (this->controller->getStartNode() == this) {
+                    this->update(Node::Type::NONE);
+                    this->controller->setStartNode(nullptr);
+                } else if (this->controller->hasEnd()) {
+                    if (this->controller->getEndNode() == this) {
+                        this->update(Node::Type::NONE);
+                        this->controller->setEndNode(nullptr);
+                    }
+                } else {
+                    this->update(Node::Type::END);
+                    this->controller->setEndNode(this);
+                }
+            } else {
+                this->update(Node::Type::START);
+                this->controller->setStartNode(this);
+            }
             break;
         case(MouseState::RIGHT_CLICK):
             if (curType != Node::Type::START && curType != Node::Type::END) {
@@ -63,4 +83,12 @@ void Block::mouseUpdate(sf::Vector2i &pos, MouseState state) {
             }
             break;
     }
+}
+
+void Block::setController(GridController<Block>* controller) {
+    this->controller = controller;
+}
+
+GridController<Block>* Block::getController() const {
+    return this->controller;
 }

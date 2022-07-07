@@ -14,22 +14,30 @@ public:
     Node::Type getType() const;
     void setType(Node::Type type);
     int getID() const;
-    int getDistance() const;
-    void setDistance(int distance);
+    double getDistance() const;
+    void setDistance(double distance);
     void setParent(Node* parent);
     Node* getParent() const;
     
     Node operator=(const Node& other) = delete;
     
-    virtual void draw(sf::RenderWindow* window);
-    virtual void reset();
-    virtual void update(Node::Type type);
-    virtual void mouseUpdate(sf::Vector2i &pos, MouseState state);
+    virtual void draw(sf::RenderWindow* window) = 0;
+    virtual void reset() = 0;
+    virtual void update(Node::Type type) = 0;
+    virtual void mouseUpdate(sf::Vector2i &pos, MouseState state) = 0;
+
+    template <typename E>
+    class NodeComparator {
+    public:
+        bool operator()(const E* first, const E* second) {
+            return first->getDistance() >= second->getDistance();
+        }
+    };
 
     virtual ~Node();
 protected:
     int id;
-    int distance;
+    double distance;
     Node* parent;
     Node::Type type;
 };

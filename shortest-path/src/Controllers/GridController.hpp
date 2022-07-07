@@ -15,10 +15,18 @@ public:
     GridController();
     ~GridController();
 
+    // Functions
     bool hasStart() const;
     bool hasEnd() const;
     void findPath();
+    void resetGrid();
+
+    // Getters & Setters
     GridController::Phase getPhase() const;
+    E* getStartNode() const;
+    E* getEndNode() const;
+    void setStartNode(E* node);
+    void setEndNode(E* node);
 
     void drawGrid(sf::RenderWindow* window);
     void mouseUpdate(sf::Vector2i &pos, MouseState state);
@@ -37,7 +45,9 @@ private:
 
 template<typename E> void GridController<E>::mouseUpdate(sf::Vector2i &pos, MouseState state) {
     for (E* node : this->resetNodes) {
-        node->reset();
+        if (node->getType() != Node::Type::PATH) {
+            node->reset();
+        }
     }
     this->resetNodes.clear();
 
@@ -52,9 +62,14 @@ template<typename E> void GridController<E>::mouseUpdate(sf::Vector2i &pos, Mous
 }
 
 template<typename E> GridController<E>::GridController() {
+    this->grid.setController(this);
     this->start = nullptr;
     this->end = nullptr;
     this->phase = GridController::Phase::SETUP;
+}
+
+template <typename E> void GridController<E>::resetGrid() {
+    this->grid.reset();
 }
 
 template<typename E> GridController<E>::~GridController() {
@@ -70,14 +85,15 @@ template<typename E> bool GridController<E>::hasEnd() const {
 }
 
 template<typename E> void GridController<E>::findPath() {
-    this->start = this->grid.getNode(0,0);
-    this->end = this->grid.getNode(DIM_X - 1, DIM_Y - 1);
-    std::vector<E*> path = SP_Algorithm::shortestPath<E>(this->start, this->end, this->grid.getNodes());
-    for (E* node : path) {
-        node->update(Node::Type::PATH);
+    if (this->hasStart() && this->hasEnd()) {
+        this->setPhase(GridController::Phase::SORTING);
+        std::vector<E*> path = SP_Algorithm::shortestPath<E>(this->getStartNode(), this->getEndNode(), this->grid.getNodes());
+        for (long long unsigned int i = 1; i < path.size() - 1; i++) {
+            path[i]->update(Node::Type::PATH);
+        }
+        this->setPhase(GridController::Phase::DONE);
     }
-    this->start = nullptr;
-    this->end = nullptr;
+
 }
 
 template<typename E> typename GridController<E>::Phase GridController<E>::getPhase() const {
@@ -86,6 +102,26 @@ template<typename E> typename GridController<E>::Phase GridController<E>::getPha
 
 template<typename E> void GridController<E>::drawGrid(sf::RenderWindow* window) {
     this->grid.draw(window);
+}
+
+template<typename E> E* GridController<E>::getStartNode() const {
+    return this->start;
+}
+
+template<typename E> E* GridController<E>::getEndNode() const {
+    return this->end;
+}
+
+template<typename E> void GridController<E>::setStartNode(E* start) {
+    this->start = start;
+}
+
+template<typename E> void GridController<E>::setEndNode(E* end) {
+    this->end = end;
+}
+
+template<typename E> void GridController<E>::setPhase(GridController<E>::Phase phase) {
+    this->phase = phase;
 }
 
 #endif

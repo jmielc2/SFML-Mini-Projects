@@ -5,11 +5,16 @@
 
 #include "../stdafx.hpp"
 #include "Node.hpp"
+#include "../Controllers/GridController.hpp"
 
 class Block : public Node {
 public:
     // General
     Block(int id);
+
+    // Getters & Setters
+    void setController(GridController<Block>* controller);
+    GridController<Block>* getController() const;
 
     // Functions
     void draw(sf::RenderWindow *window);
@@ -23,6 +28,7 @@ public:
 private:
     Node::Type type;
     sf::RectangleShape sprite;
+    GridController<Block>* controller;
 };
 
 #endif
