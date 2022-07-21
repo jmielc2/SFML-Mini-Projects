@@ -49,10 +49,30 @@ void App::processKeyEvents() {
     if (event.type == sf::Event::Closed) {
         this->window->close();
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+    if (event.key.code == sf::Keyboard::Key::Escape) {
         this->window->close();
-    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-        App::gridController.findPath();
+        return;
+    }
+    if (event.type == sf::Event::EventType::KeyPressed) {
+        switch (this->gridController.getPhase()) {
+            case (GridController<Block>::Phase::SETUP):
+                if (event.key.code == sf::Keyboard::Key::Enter) {
+                    LOG("SOLVING");
+                    App::gridController.findPath();
+                } else if (event.key.code == sf::Keyboard::Key::R) {
+                    LOG("RESETTING");
+                    this->gridController.resetGrid();
+                }
+                break;
+            case (GridController<Block>::Phase::DONE):
+                if (event.key.code == sf::Keyboard::Key::R) {
+                    LOG("RESETTING");
+                    this->gridController.resetGrid();
+                }
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -61,7 +81,7 @@ void App::processMouseEvents() {
     if (pos.x < 0 || pos.x >= WINDOW_WIDTH || pos.y < 0 || pos.y >= WINDOW_HEIGHT) {
         return;
     }
-
+    
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
         if (mouseState == MouseState::LEFT_CLICK || mouseState == MouseState::LEFT_HOLD) {
             mouseState = MouseState::LEFT_HOLD;
@@ -70,9 +90,9 @@ void App::processMouseEvents() {
         }
     } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
         if (mouseState == MouseState::RIGHT_CLICK || mouseState == MouseState::RIGHT_HOLD) {
-            mouseState = MouseState::RIGHT_CLICK;
-        } else {
             mouseState = MouseState::RIGHT_HOLD;
+        } else {
+            mouseState = MouseState::RIGHT_CLICK;
         }
     } else {
         mouseState = MouseState::HOVER;

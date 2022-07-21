@@ -53,19 +53,9 @@ void Block::mouseUpdate(sf::Vector2i &pos, MouseState state) {
         state = MouseState::HOVER;
     }
     switch (state) {
-        case(MouseState::HOVER):
-            if (curType == Node::Type::NONE) {
-                this->sprite.setFillColor(sf::Color(0xD2D1D0ff));
-            }
-            break;
-        case(MouseState::LEFT_HOLD):
-            if (curType == Node::Type::NONE) {
-                this->sprite.setFillColor(sf::Color(0xD2D1D0ff));
-            }
-            break;
         case(MouseState::RIGHT_HOLD):
-            if (curType == Node::Type::NONE) {
-                this->sprite.setFillColor(sf::Color(0xD2D1D0ff));
+            if (curType != Node::Type::START && curType != Node::Type::END) {
+                this->update(Node::Type::WALL);
             }
             break;
         case(MouseState::LEFT_CLICK):
@@ -90,6 +80,11 @@ void Block::mouseUpdate(sf::Vector2i &pos, MouseState state) {
         case(MouseState::RIGHT_CLICK):
             if (curType != Node::Type::START && curType != Node::Type::END) {
                 this->update(Node::Type::WALL);
+            }
+            break;
+        default:
+            if (curType == Node::Type::NONE) {
+                this->sprite.setFillColor(sf::Color(0xD2D1D0ff));
             }
             break;
     }

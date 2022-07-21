@@ -70,6 +70,9 @@ template<typename E> GridController<E>::GridController() {
 
 template <typename E> void GridController<E>::resetGrid() {
     this->grid.reset();
+    this->setStartNode(nullptr);
+    this->setEndNode(nullptr);
+    this->setPhase(GridController<E>::Phase::SETUP);
 }
 
 template<typename E> GridController<E>::~GridController() {
