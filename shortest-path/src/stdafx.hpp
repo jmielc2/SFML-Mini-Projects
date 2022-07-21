@@ -15,7 +15,7 @@
 #define WINDOW_WIDTH  700
 #define DIM_X 25
 #define DIM_Y 25
-enum MouseState {HOVER, RIGHT_CLICK, LEFT_CLICK};
+enum MouseState {HOVER, RIGHT_CLICK, LEFT_CLICK, RIGHT_HOLD, LEFT_HOLD};
 
 #if (DEBUG)
     #include <iostream>

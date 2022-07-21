@@ -10,7 +10,7 @@
 template <typename E>
 class GridController {
 public:
-    enum Phase {SETUP, SORTING, DONE};
+    enum Phase {SETUP, SOLVING, DONE};
     
     GridController();
     ~GridController();
@@ -86,7 +86,7 @@ template<typename E> bool GridController<E>::hasEnd() const {
 
 template<typename E> void GridController<E>::findPath() {
     if (this->hasStart() && this->hasEnd()) {
-        this->setPhase(GridController::Phase::SORTING);
+        this->setPhase(GridController::Phase::SOLVING);
         std::vector<E*> path = SP_Algorithm::shortestPath<E>(this->getStartNode(), this->getEndNode(), this->grid.getNodes());
         for (long long unsigned int i = 1; i < path.size() - 1; i++) {
             path[i]->update(Node::Type::PATH);

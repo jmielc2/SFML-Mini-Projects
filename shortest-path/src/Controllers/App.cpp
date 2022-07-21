@@ -3,6 +3,7 @@
 App App::app;
 App::State App::appState = App::State::RUNNING;
 GridController<Block> App::gridController;
+MouseState App::mouseState = MouseState::HOVER;
 
 sf::RenderWindow* App::window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Shortest Path Finder", sf::Style::Titlebar | sf::Style::Close);
 sf::Event App::event;
@@ -61,11 +62,21 @@ void App::processMouseEvents() {
         return;
     }
 
-    MouseState mouseState = MouseState::HOVER;
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-        mouseState = MouseState::LEFT_CLICK;
+        if (mouseState == MouseState::LEFT_CLICK || mouseState == MouseState::LEFT_HOLD) {
+            mouseState = MouseState::LEFT_HOLD;
+        } else {
+            mouseState = MouseState::LEFT_CLICK;
+        }
     } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Right)) {
-        mouseState = MouseState::RIGHT_CLICK;
+        if (mouseState == MouseState::RIGHT_CLICK || mouseState == MouseState::RIGHT_HOLD) {
+            mouseState = MouseState::RIGHT_CLICK;
+        } else {
+            mouseState = MouseState::RIGHT_HOLD;
+        }
+    } else {
+        mouseState = MouseState::HOVER;
     }
+
     App::gridController.mouseUpdate(pos, mouseState);
 }

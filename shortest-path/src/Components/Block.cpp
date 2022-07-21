@@ -58,6 +58,16 @@ void Block::mouseUpdate(sf::Vector2i &pos, MouseState state) {
                 this->sprite.setFillColor(sf::Color(0xD2D1D0ff));
             }
             break;
+        case(MouseState::LEFT_HOLD):
+            if (curType == Node::Type::NONE) {
+                this->sprite.setFillColor(sf::Color(0xD2D1D0ff));
+            }
+            break;
+        case(MouseState::RIGHT_HOLD):
+            if (curType == Node::Type::NONE) {
+                this->sprite.setFillColor(sf::Color(0xD2D1D0ff));
+            }
+            break;
         case(MouseState::LEFT_CLICK):
             if (this->controller->hasStart()) {
                 if (this->controller->getStartNode() == this) {

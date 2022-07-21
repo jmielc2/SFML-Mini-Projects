@@ -31,6 +31,7 @@ private:
     
     static sf::RenderWindow* window;
     static sf::Event event;
+    static MouseState mouseState;
 };
 
 #endif
