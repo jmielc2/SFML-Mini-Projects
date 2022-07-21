@@ -17,13 +17,22 @@ bool App::isRunning() {
 }
 
 void App::update() {
-    this->window->pollEvent(this->event);
-    this->processMouseEvents();
-    this->processKeyEvents();
+    if (this->window->pollEvent(this->event)) {
+        if (this->event.type == sf::Event::EventType::Closed) {
+            quit();
+            return;
+        }
+        this->processMouseEvents();
+        this->processKeyEvents();
 
-    this->window->clear(sf::Color::Black);
-    App::gridController.drawGrid(this->window);
-    this->window->display();
+        this->window->clear(sf::Color::Black);
+        App::gridController.drawGrid(this->window);
+        this->window->display();
+    }
+}
+
+App App::getApp() {
+    return App::app;
 }
 
 void App::quit() {
@@ -33,8 +42,8 @@ void App::quit() {
     this->setAppState(App::State::CLOSED);
 }
 
-App App::getApp() {
-    return App::app;
+void App::init() {
+    App::window->setFramerateLimit(60);
 }
 
 App::State App::getAppState() const {
@@ -46,33 +55,25 @@ void App::setAppState(App::State state) {
 }
 
 void App::processKeyEvents() {
-    if (event.type == sf::Event::Closed) {
-        this->window->close();
-    }
-    if (event.key.code == sf::Keyboard::Key::Escape) {
-        this->window->close();
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
+        quit();
         return;
     }
-    if (event.type == sf::Event::EventType::KeyPressed) {
-        switch (this->gridController.getPhase()) {
-            case (GridController<Block>::Phase::SETUP):
-                if (event.key.code == sf::Keyboard::Key::Enter) {
-                    LOG("SOLVING");
-                    App::gridController.findPath();
-                } else if (event.key.code == sf::Keyboard::Key::R) {
-                    LOG("RESETTING");
-                    this->gridController.resetGrid();
-                }
-                break;
-            case (GridController<Block>::Phase::DONE):
-                if (event.key.code == sf::Keyboard::Key::R) {
-                    LOG("RESETTING");
-                    this->gridController.resetGrid();
-                }
-                break;
-            default:
-                break;
-        }
+    switch (this->gridController.getPhase()) {
+        case (GridController<Block>::Phase::SETUP):
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
+                App::gridController.findPath();
+            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) {
+                this->gridController.resetGrid();
+            }
+            break;
+        case (GridController<Block>::Phase::DONE):
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) {
+                this->gridController.resetGrid();
+            }
+            break;
+        default:
+            break;
     }
 }
 

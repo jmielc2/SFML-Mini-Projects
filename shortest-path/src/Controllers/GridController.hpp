@@ -36,7 +36,7 @@ private:
     E* start;
     E* end;
     GridController::Phase phase;
-    std::vector<E*> resetNodes;
+    E* resetNode;
 
     void setPhase(GridController::Phase phase);
 };
@@ -44,20 +44,19 @@ private:
 //////////////////////////////////////////////
 
 template<typename E> void GridController<E>::mouseUpdate(sf::Vector2i &pos, MouseState state) {
-    for (E* node : this->resetNodes) {
-        if (node->getType() != Node::Type::PATH) {
-            node->reset();
-        }
+    if (this->resetNode && this->resetNode->getType() != Node::Type::PATH) {
+        this->resetNode->reset();
     }
-    this->resetNodes.clear();
-
+    
     int x = pos.x / (WINDOW_WIDTH / DIM_X);
     int y = pos.y / (WINDOW_HEIGHT / DIM_Y);
     E* curNode = this->grid.getNode(x, y);
     curNode->mouseUpdate(pos, state);
 
     if (curNode->getType() == Node::Type::NONE) {
-        this->resetNodes.push_back(curNode);
+        this->resetNode = curNode;
+    } else {
+        this->resetNode = nullptr;
     }
 }
 

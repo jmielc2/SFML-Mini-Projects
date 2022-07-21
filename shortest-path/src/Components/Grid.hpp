@@ -63,6 +63,9 @@ template <typename E> std::vector<E*> Grid<E>::getNodes() {
 }
 
 template <typename E> E* Grid<E>::getNode(int x, int y) {
+    if (y * DIM_X + x >= (int) this->nodes.size()) {
+        return this->nodes.back();
+    }
     return this->nodes.at(y * DIM_X + x);
 }
 

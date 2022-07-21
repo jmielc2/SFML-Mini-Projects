@@ -14,6 +14,7 @@ public:
     bool isRunning();
     void update();
     void quit();
+    void init();
 
     static App getApp();
     App::State getAppState() const;

@@ -3,7 +3,7 @@
 
 int main() {
     App app = App::getApp();
-
+    app.init();
     while (app.isRunning()) {
         app.update();
     }

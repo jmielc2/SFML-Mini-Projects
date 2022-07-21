@@ -59,7 +59,9 @@ void Block::mouseUpdate(sf::Vector2i &pos, MouseState state) {
             }
             break;
         case(MouseState::LEFT_CLICK):
-            if (this->controller->hasStart()) {
+            if (this->getType() == Node::Type::WALL) {
+                break;
+            } else if (this->controller->hasStart()) {
                 if (this->controller->getStartNode() == this) {
                     this->update(Node::Type::NONE);
                     this->controller->setStartNode(nullptr);
