@@ -1,0 +1,7 @@
+COMMANDS:
+    ESC             Quit program
+    Left Click      Set Start/End Points
+    Right Click     Build Wall
+    R               Reset Grid
+    ENTER           Find Shortest Path
+    

@@ -22,7 +22,9 @@ template <typename E> std::vector<E*> SP_Algorithm::shortestPath(E* start, E* en
     std::vector<E*> path;
     
     for (E* node : grid) {
-        if (node == start) {
+        if (node->getType() == Node::Type::WALL) {
+            continue;
+        } else if (node == start) {
             node->setDistance(0);
         } else {
             node->setDistance(INT_MAX);
@@ -37,12 +39,9 @@ template <typename E> std::vector<E*> SP_Algorithm::shortestPath(E* start, E* en
         if (cur->getID() == end->getID()) {
             break;
         }
-        path.push_back(cur);
 
         std::vector<E*> neighbors = SP_Algorithm::getNodeNeighbors(cur, grid);
-        std::string message = std::to_string(cur->getID()) + " : ";
         for (E* neighbor : neighbors) {
-            message += std::to_string(neighbor->getID()) + ", ";
             int altDistance = 1 + cur->getDistance();
             if (altDistance < neighbor->getDistance() && cur->getDistance() != INT_MAX) {
                 neighbor->setDistance(altDistance);
@@ -50,16 +49,14 @@ template <typename E> std::vector<E*> SP_Algorithm::shortestPath(E* start, E* en
                 unvisited.emplace(neighbor);
             }
         }
-        LOG(message);
     }
-    LOG("START: " + std::to_string(start->getID()));
-    LOG("END: " + std::to_string(end->getID()));
-    // E *cur = end, *prev;
-    // do {
-    //     prev = cur;
-    //     path.push_back(cur);
-    //     cur = dynamic_cast<E*>(cur->getParent());
-    // } while (prev->getParent() != nullptr && prev != start);
+    
+    E *cur = end, *prev;
+    do {
+        prev = cur;
+        path.push_back(cur);
+        cur = dynamic_cast<E*>(cur->getParent());
+    } while (prev->getParent() != nullptr && prev != start);
 
     return path;
 }

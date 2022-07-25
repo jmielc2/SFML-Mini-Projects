@@ -8,6 +8,17 @@ MouseState App::mouseState = MouseState::HOVER;
 sf::RenderWindow* App::window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Shortest Path Finder", sf::Style::Titlebar | sf::Style::Close);
 sf::Event App::event;
 
+void printCommands(std::string file) {
+    std::ifstream inFile(file);
+    if (inFile.good()) {
+        while (!inFile.eof()) {
+            std::cout << (char) inFile.get();
+        }
+    } else {
+        LOG("Error: Failed to open " + file + ".");
+    }
+}
+
 App::App() {
     return;
 }
@@ -44,6 +55,7 @@ void App::quit() {
 
 void App::init() {
     App::window->setFramerateLimit(60);
+    printCommands("../lib/commands.txt");
 }
 
 App::State App::getAppState() const {
