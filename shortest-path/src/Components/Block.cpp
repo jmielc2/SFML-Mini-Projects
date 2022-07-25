@@ -74,10 +74,13 @@ void Block::mouseUpdate(sf::Vector2i &pos, MouseState state) {
                     this->update(Node::Type::END);
                     this->controller->setEndNode(this);
                 }
-            } else {
+            } else if (this->getType() != Node::Type::END) {
                 this->update(Node::Type::START);
                 this->controller->setStartNode(this);
-            }
+            } else {
+                this->update(Node::Type::NONE);
+                this->controller->setEndNode(nullptr);
+	     }
             break;
         case(MouseState::RIGHT_CLICK):
             if (curType != Node::Type::START && curType != Node::Type::END) {
