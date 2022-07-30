@@ -39,6 +39,7 @@ private:
     E* resetNode;
 
     void setPhase(GridController::Phase phase);
+    void mouseUpdateLogic(E* node, MouseState state);
 };
 
 //////////////////////////////////////////////
@@ -52,51 +53,7 @@ template<typename E> void GridController<E>::mouseUpdate(sf::Vector2i &pos, Mous
     int y = pos.y / (WINDOW_HEIGHT / DIM_Y);
     E* curNode = this->grid.getNode(x, y);
 
-    Node::Type curType = curNode->getType();
-    if (getPhase() != Phase::SETUP) {
-        state = MouseState::HOVER;
-    }
-    switch (state) {
-        case(MouseState::RIGHT_HOLD):
-            if (curType != Node::Type::START && curType != Node::Type::END) {
-                curNode->update(Node::Type::WALL);
-            }
-            break;
-        case(MouseState::LEFT_CLICK):
-            if (curType == Node::Type::WALL) {
-                break;
-            } else if (hasStart()) {
-                if (getStartNode() == curNode) {
-                    curNode->update(Node::Type::NONE);
-                    setStartNode(nullptr);
-                } else if (hasEnd()) {
-                    if (getEndNode() == curNode) {
-                        curNode->update(Node::Type::NONE);
-                        setEndNode(nullptr);
-                    }
-                } else {
-                    curNode->update(Node::Type::END);
-                    setEndNode(curNode);
-                }
-            } else if (curType != Node::Type::END) {
-                curNode->update(Node::Type::START);
-                setStartNode(curNode);
-            } else {
-                curNode->update(Node::Type::NONE);
-                setEndNode(nullptr);
-	     }
-            break;
-        case(MouseState::RIGHT_CLICK):
-            if (curType != Node::Type::START && curType != Node::Type::END) {
-                curNode->update(Node::Type::WALL);
-            }
-            break;
-        default:
-            if (curType == Node::Type::NONE) {
-                curNode->update(Node::Type::NONE);
-            }
-            break;
-    }
+    mouseUpdateLogic(curNode, state);
 
     if (curNode->getType() == Node::Type::NONE) {
         this->resetNode = curNode;
@@ -176,6 +133,54 @@ template<typename E> void GridController<E>::setEndNode(E* end) {
 
 template<typename E> void GridController<E>::setPhase(GridController<E>::Phase phase) {
     this->phase = phase;
+}
+
+template<typename E> void GridController<E>::mouseUpdateLogic(E* node, MouseState state) {
+    Node::Type curType = node->getType();
+    if (getPhase() != Phase::SETUP) {
+        state = MouseState::HOVER;
+    }
+    switch (state) {
+        case(MouseState::RIGHT_HOLD):
+            if (curType != Node::Type::START && curType != Node::Type::END) {
+                node->update(Node::Type::WALL);
+            }
+            break;
+        case(MouseState::LEFT_CLICK):
+            if (curType == Node::Type::WALL) {
+                break;
+            } else if (hasStart()) {
+                if (getStartNode() == node) {
+                    node->update(Node::Type::NONE);
+                    setStartNode(nullptr);
+                } else if (hasEnd()) {
+                    if (getEndNode() == node) {
+                        node->update(Node::Type::NONE);
+                        setEndNode(nullptr);
+                    }
+                } else {
+                    node->update(Node::Type::END);
+                    setEndNode(node);
+                }
+            } else if (curType != Node::Type::END) {
+                node->update(Node::Type::START);
+                setStartNode(node);
+            } else {
+                node->update(Node::Type::NONE);
+                setEndNode(nullptr);
+	     }
+            break;
+        case(MouseState::RIGHT_CLICK):
+            if (curType != Node::Type::START && curType != Node::Type::END) {
+                node->update(Node::Type::WALL);
+            }
+            break;
+        default:
+            if (curType == Node::Type::NONE) {
+                node->update(Node::Type::NONE);
+            }
+            break;
+    }
 }
 
 #endif

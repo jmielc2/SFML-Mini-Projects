@@ -1,4 +1,4 @@
-COMMANDS:
+CONTROLS:
     ESC             Quit program
     Left Click      Set Start/End Points
     Right Click     Build Wall

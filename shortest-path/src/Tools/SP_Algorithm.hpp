@@ -49,13 +49,6 @@ template <typename E> std::vector<E*> SP_Algorithm::shortestPath(E* start, E* en
             }
         }
     }
-    
-    // E *cur = end, *prev;
-    // do {
-    //     prev = cur;
-    //     path.push_back(cur);
-    //     cur = dynamic_cast<E*>(cur->getParent());
-    // } while (prev->getParent() != nullptr && prev != start);
 
     return visited;
 }
