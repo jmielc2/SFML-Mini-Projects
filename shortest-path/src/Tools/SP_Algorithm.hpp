@@ -22,28 +22,26 @@ template <typename E> std::vector<E*> SP_Algorithm::shortestPath(E* start, E* en
     std::vector<E*> path;
     
     for (E* node : grid) {
-        if (node->getType() == Node::Type::WALL) {
-            continue;
-        } else if (node == start) {
+        if (node == start) {
             node->setDistance(0);
+            unvisited.emplace(node);
         } else {
             node->setDistance(INT_MAX);
         }
         node->setParent(nullptr);
-        unvisited.emplace(node);
     }
 
     while (!unvisited.empty()) {
         E* cur = unvisited.top();
         unvisited.pop();
-        if (cur->getID() == end->getID()) {
+        if (cur == end) {
             break;
         }
 
         std::vector<E*> neighbors = SP_Algorithm::getNodeNeighbors(cur, grid);
         for (E* neighbor : neighbors) {
             int altDistance = 1 + cur->getDistance();
-            if (altDistance < neighbor->getDistance() && cur->getDistance() != INT_MAX) {
+            if (altDistance < neighbor->getDistance()) {
                 neighbor->setDistance(altDistance);
                 neighbor->setParent(cur);
                 unvisited.emplace(neighbor);
