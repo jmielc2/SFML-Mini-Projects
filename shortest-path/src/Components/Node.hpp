@@ -8,7 +8,7 @@
 class Node {
 public:
     // General
-    enum Type {START, END, NONE, PATH, WALL};
+    enum Type {START, END, NONE, PATH, WALL, VISITED};
 
     // Getters & Setters
     Node::Type getType() const;
@@ -24,7 +24,6 @@ public:
     virtual void draw(sf::RenderWindow* window) = 0;
     virtual void reset() = 0;
     virtual void update(Node::Type type) = 0;
-    virtual void mouseUpdate(sf::Vector2i &pos, MouseState state) = 0;
 
     template <typename E>
     class NodeComparator {

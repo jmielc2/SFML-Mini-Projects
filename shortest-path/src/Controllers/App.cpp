@@ -35,11 +35,11 @@ void App::update() {
         }
         this->processMouseEvents();
         this->processKeyEvents();
-
-        this->window->clear(sf::Color::Black);
-        App::gridController.drawGrid(this->window);
-        this->window->display();
     }
+
+    this->window->clear(sf::Color::Black);
+    App::gridController.drawGrid(this->window);
+    this->window->display();
 }
 
 App App::getApp() {

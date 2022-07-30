@@ -19,7 +19,7 @@ private:
 
 template <typename E> std::vector<E*> SP_Algorithm::shortestPath(E* start, E* end, const std::vector<E*> &grid) {
     std::priority_queue<E*, std::vector<E*>, Node::NodeComparator<E>> unvisited;
-    std::vector<E*> path;
+    std::vector<E*> visited;
     
     for (E* node : grid) {
         if (node == start) {
@@ -34,6 +34,7 @@ template <typename E> std::vector<E*> SP_Algorithm::shortestPath(E* start, E* en
     while (!unvisited.empty()) {
         E* cur = unvisited.top();
         unvisited.pop();
+        visited.push_back(cur);
         if (cur == end) {
             break;
         }
@@ -49,14 +50,14 @@ template <typename E> std::vector<E*> SP_Algorithm::shortestPath(E* start, E* en
         }
     }
     
-    E *cur = end, *prev;
-    do {
-        prev = cur;
-        path.push_back(cur);
-        cur = dynamic_cast<E*>(cur->getParent());
-    } while (prev->getParent() != nullptr && prev != start);
+    // E *cur = end, *prev;
+    // do {
+    //     prev = cur;
+    //     path.push_back(cur);
+    //     cur = dynamic_cast<E*>(cur->getParent());
+    // } while (prev->getParent() != nullptr && prev != start);
 
-    return path;
+    return visited;
 }
 
 template <typename E> std::vector<E*> SP_Algorithm::getNodeNeighbors(const E* cur, const std::vector<E*> &grid) {

@@ -44,14 +44,59 @@ private:
 //////////////////////////////////////////////
 
 template<typename E> void GridController<E>::mouseUpdate(sf::Vector2i &pos, MouseState state) {
-    if (this->resetNode && this->resetNode->getType() != Node::Type::PATH) {
+    if (this->resetNode && this->resetNode->getType() != Node::Type::PATH && this->resetNode->getType() != Node::Type::VISITED) {
         this->resetNode->reset();
     }
     
     int x = pos.x / (WINDOW_WIDTH / DIM_X);
     int y = pos.y / (WINDOW_HEIGHT / DIM_Y);
     E* curNode = this->grid.getNode(x, y);
-    curNode->mouseUpdate(pos, state);
+
+    Node::Type curType = curNode->getType();
+    if (getPhase() != Phase::SETUP) {
+        state = MouseState::HOVER;
+    }
+    switch (state) {
+        case(MouseState::RIGHT_HOLD):
+            if (curType != Node::Type::START && curType != Node::Type::END) {
+                curNode->update(Node::Type::WALL);
+            }
+            break;
+        case(MouseState::LEFT_CLICK):
+            if (curType == Node::Type::WALL) {
+                break;
+            } else if (hasStart()) {
+                if (getStartNode() == curNode) {
+                    curNode->update(Node::Type::NONE);
+                    setStartNode(nullptr);
+                } else if (hasEnd()) {
+                    if (getEndNode() == curNode) {
+                        curNode->update(Node::Type::NONE);
+                        setEndNode(nullptr);
+                    }
+                } else {
+                    curNode->update(Node::Type::END);
+                    setEndNode(curNode);
+                }
+            } else if (curType != Node::Type::END) {
+                curNode->update(Node::Type::START);
+                setStartNode(curNode);
+            } else {
+                curNode->update(Node::Type::NONE);
+                setEndNode(nullptr);
+	     }
+            break;
+        case(MouseState::RIGHT_CLICK):
+            if (curType != Node::Type::START && curType != Node::Type::END) {
+                curNode->update(Node::Type::WALL);
+            }
+            break;
+        default:
+            if (curType == Node::Type::NONE) {
+                curNode->update(Node::Type::NONE);
+            }
+            break;
+    }
 
     if (curNode->getType() == Node::Type::NONE) {
         this->resetNode = curNode;
@@ -89,10 +134,17 @@ template<typename E> bool GridController<E>::hasEnd() const {
 template<typename E> void GridController<E>::findPath() {
     if (this->hasStart() && this->hasEnd()) {
         this->setPhase(GridController::Phase::SOLVING);
-        std::vector<E*> path = SP_Algorithm::shortestPath<E>(this->getStartNode(), this->getEndNode(), this->grid.getNodes());
-        for (long long unsigned int i = 1; i < path.size() - 1; i++) {
-            path[i]->update(Node::Type::PATH);
+        std::vector<E*> visited = SP_Algorithm::shortestPath<E>(this->getStartNode(), this->getEndNode(), this->grid.getNodes());
+        for (int i = 1; i < (int) visited.size() - 1; i++) {
+            visited[i]->update(Node::Type::VISITED);
         }
+    
+        E *cur = dynamic_cast<E*>(end->getParent());
+        while (cur != nullptr && cur != start) {
+            cur->update(Node::Type::PATH);
+            cur = dynamic_cast<E*>(cur->getParent());
+        }
+
         this->setPhase(GridController::Phase::DONE);
     }
 

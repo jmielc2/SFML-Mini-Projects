@@ -33,7 +33,7 @@ void Block::update(Node::Type type) {
             this->sprite.setFillColor(sf::Color::Red);
             break;
         case(Node::Type::NONE):
-            this->sprite.setFillColor(sf::Color::White);
+            this->sprite.setFillColor(sf::Color(0xD2D1D0ff));
             break;
         case(Node::Type::PATH):
             this->sprite.setFillColor(sf::Color::Blue);
@@ -44,53 +44,8 @@ void Block::update(Node::Type type) {
         case(Node::Type::WALL):
             this->sprite.setFillColor(sf::Color::Black);
             break;
-    }
-}
-
-void Block::mouseUpdate(sf::Vector2i &pos, MouseState state) {
-    Node::Type curType = this->getType();
-    if (this->controller->getPhase() != GridController<Block>::Phase::SETUP) {
-        state = MouseState::HOVER;
-    }
-    switch (state) {
-        case(MouseState::RIGHT_HOLD):
-            if (curType != Node::Type::START && curType != Node::Type::END) {
-                this->update(Node::Type::WALL);
-            }
-            break;
-        case(MouseState::LEFT_CLICK):
-            if (this->getType() == Node::Type::WALL) {
-                break;
-            } else if (this->controller->hasStart()) {
-                if (this->controller->getStartNode() == this) {
-                    this->update(Node::Type::NONE);
-                    this->controller->setStartNode(nullptr);
-                } else if (this->controller->hasEnd()) {
-                    if (this->controller->getEndNode() == this) {
-                        this->update(Node::Type::NONE);
-                        this->controller->setEndNode(nullptr);
-                    }
-                } else {
-                    this->update(Node::Type::END);
-                    this->controller->setEndNode(this);
-                }
-            } else if (this->getType() != Node::Type::END) {
-                this->update(Node::Type::START);
-                this->controller->setStartNode(this);
-            } else {
-                this->update(Node::Type::NONE);
-                this->controller->setEndNode(nullptr);
-	     }
-            break;
-        case(MouseState::RIGHT_CLICK):
-            if (curType != Node::Type::START && curType != Node::Type::END) {
-                this->update(Node::Type::WALL);
-            }
-            break;
-        default:
-            if (curType == Node::Type::NONE) {
-                this->sprite.setFillColor(sf::Color(0xD2D1D0ff));
-            }
+        case(Node::Type::VISITED):
+            this->sprite.setFillColor(sf::Color::Yellow);
             break;
     }
 }

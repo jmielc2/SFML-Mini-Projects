@@ -20,7 +20,6 @@ public:
     void draw(sf::RenderWindow *window);
     void reset();
     void update(Node::Type type);
-    void mouseUpdate(sf::Vector2i &pos, MouseState state);
 
     // Deleted Functions
     Block operator=(const Block& other) = delete;
