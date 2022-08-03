@@ -13,10 +13,10 @@ void updateWindow(sf::RenderWindow &window, std::vector<Ball*> &balls, float dt)
 
 int main() {
     srand(time(NULL));
-    sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Bouncing Balls");
-    ShowWindow(window.getSystemHandle(), SW_MAXIMIZE);
     sf::Clock clock;
-    
+    sf::Event event;
+    sf::RenderWindow window(sf::VideoMode::getDesktopMode(), "Bouncing Balls");
+
     std::vector<Ball*> balls(30);
     for (auto &a : balls) {
         float radius = float(rand() % 26) + 25.0f;
@@ -25,20 +25,18 @@ int main() {
         uint8_t blue = rand() % 256;
         a = new Ball(&window, radius, sf::Color(red, green, blue));
     }
-
-    while (window.isOpen())
-    {
-        sf::Event event;
+    
+    while (window.isOpen()) {
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed) {
+            if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
                 window.close();
             }
         }
         updateWindow(window, balls, clock.restart().asSeconds());
     }
 
-    for (int i = 0; i < balls.size(); i++) {
+    for (int i = 0; i < (int) balls.size(); i++) {
         delete balls[i];
     }
 

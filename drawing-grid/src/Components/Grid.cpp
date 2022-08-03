@@ -3,8 +3,8 @@
 class Grid::Impl
 {
 public:
-    const int MAX_X = 100;
-    const int MAX_Y = 100;
+    const unsigned int MAX_X = 100;
+    const unsigned int MAX_Y = 100;
 
     int xStart;
     int yStart;
@@ -32,7 +32,7 @@ void Grid::Impl::updateBlock(int x, int y) {
 }
 
 bool Grid::Impl::blockExists(int x, int y) {
-    return (x >= 0 && x < this->dim.x && y >= 0 && y < this->dim.y);
+    return (x >= 0 && x < (int) this->dim.x && y >= 0 && y < (int) this->dim.y);
 }
 
 void Grid::Impl::resetPrevBlocks() {
@@ -60,9 +60,9 @@ Grid::Grid(const sf::Vector2u dim, float size, sf::RenderWindow* window) :
     }
     this->impl->xStart = (window->getSize().x - (dim.x * size)) / 2;
     this->impl->yStart = (window->getSize().y - (dim.y * size)) / 2;
-    for (int y = 0; y < dim.y; y++) {
+    for (int y = 0; y < (int) dim.y; y++) {
         std::vector<Block*> row;
-        for (int x = 0; x < dim.x; x++) {
+        for (int x = 0; x < (int) dim.x; x++) {
             row.push_back(new Block({float(this->impl->xStart + size * x), float(this->impl->yStart + size * y)}, size, window));
         }
         this->impl->grid.push_back(row);
@@ -76,8 +76,8 @@ Grid::Grid(const sf::Vector2u dim, float size, sf::RenderWindow* window) :
 
 Grid::~Grid()
 {
-    for (int y = 0; y < this->impl->grid.size(); y++) {
-        for (int x = 0; x < this->impl->grid.at(y).size(); x++) {
+    for (int y = 0; y < (int) this->impl->grid.size(); y++) {
+        for (int x = 0; x < (int) this->impl->grid.at(y).size(); x++) {
             delete this->impl->grid.at(y).at(x);
         }
     }
