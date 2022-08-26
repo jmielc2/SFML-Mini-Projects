@@ -10,7 +10,7 @@
 #include <functional>
 #include <fstream>
 #include <iostream>
-#include <SFML/graphics.hpp>
+#include <SFML/Graphics.hpp>
 
 #define DEBUG 0
 #define WINDOW_HEIGHT 700
