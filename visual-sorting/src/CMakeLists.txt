@@ -10,9 +10,11 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project(sort VERSION 1.0)
 
 # SFML Library Location
-set(SFML_DEPENDENCIES ${CMAKE_CURRENT_SOURCE_DIR}/../../SFML)
+set(SFML_DEPENDENCIES ${CMAKE_CURRENT_BINARY_DIR}/../../SFML)
 
 add_executable(sort Main.cpp stdafx.cpp Components/App.cpp Components/Bar.cpp Components/SortController.cpp)
+
+set(BINARY_SOURCE_DIR ${SFML_DEPENDENCIES})
 
 # External Header Files
 target_include_directories(sort PUBLIC ${SFML_DEPENDENCIES}/include)
@@ -27,7 +29,12 @@ endif()
 add_definitions(${GCC_ADDITIONAL_FLAGS})
 
 # Find and Link SFML Library
-target_link_libraries(sort PRIVATE
-        ${SFML_DEPENDENCIES}/bin/sfml-graphics-2.dll
-        ${SFML_DEPENDENCIES}/bin/sfml-system-2.dll
-        ${SFML_DEPENDENCIES}/bin/sfml-window-2.dll)
+target_link_directories(sort
+	PRIVATE ${SFML_DEPENDENCIES}/bin/
+)
+
+target_link_libraries(sort
+        libsfml-graphics-2.dll
+        libsfml-system-2.dll
+        libsfml-window-2.dll
+)
