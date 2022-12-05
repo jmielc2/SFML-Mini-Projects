@@ -12,6 +12,7 @@ class MG_Algorithm {
 public:
     static void init();
     template <typename E> static void generateMaze(const Grid<E> &grid);
+
 private:
     struct entry {
         int dir, x, y;
@@ -27,15 +28,6 @@ private:
 };
 
 //////////////////////////////////////////////
-
-std::map<int, sf::Vector2i> MG_Algorithm::directions;
-
-void MG_Algorithm::init() {
-    directions.emplace((int) UP, sf::Vector2i(0, -1));
-    directions.emplace((int) RIGHT, sf::Vector2i(1, 0));
-    directions.emplace((int) DOWN, sf::Vector2i(0, 1));
-    directions.emplace((int) LEFT, sf::Vector2i(-1, 0));
-}
 
 template <typename E> void MG_Algorithm::generateMaze(const Grid<E> &grid) {
     for (E* node : grid.getNodes()) {
