@@ -8,18 +8,22 @@ MouseState App::mouseState = MouseState::HOVER;
 sf::RenderWindow* App::window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Shortest Path Finder", sf::Style::Titlebar | sf::Style::Close);
 sf::Event App::event;
 
-void printCommands(std::string file) {
+static void printCommands(std::string file) {
     std::ifstream inFile(file);
     if (inFile.good()) {
+        std::string input;
         while (!inFile.eof()) {
-            std::cout << (char) inFile.get();
+            std::getline(inFile, input);
+            std::cout << input << std::endl;
         }
     } else {
-        LOG("Error: Failed to open " + file + ".");
+        LOG("Error: Failed to open '" + file + "'.");
     }
 }
 
 App::App() {
+    srand(time(NULL));
+    MG_Algorithm::init();
     return;
 }
 
@@ -84,8 +88,6 @@ void App::processKeyEvents() {
         case (GridController<Block>::Phase::DONE):
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) {
                 this->gridController.resetGrid();
-            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M)) {
-                this->gridController.generateMaze();
             }
             break;
         default:

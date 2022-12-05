@@ -50,7 +50,7 @@ private:
 //////////////////////////////////////////////
 
 template<typename E> void GridController<E>::mouseUpdate(sf::Vector2i &pos, MouseState state) {
-    if (this->resetNode && this->resetNode->getType() != Node::Type::PATH && this->resetNode->getType() != Node::Type::VISITED) {
+    if (this->resetNode && this->resetNode->getType() == Node::Type::HOVER) {
         this->resetNode->reset();
     }
     
@@ -60,7 +60,7 @@ template<typename E> void GridController<E>::mouseUpdate(sf::Vector2i &pos, Mous
 
     mouseUpdateLogic(curNode, state);
 
-    if (curNode->getType() == Node::Type::NONE) {
+    if (curNode->getType() == Node::Type::HOVER) {
         this->resetNode = curNode;
     } else {
         this->resetNode = nullptr;
@@ -86,7 +86,7 @@ template <typename E> void GridController<E>::resetGrid() {
 template <typename E> void GridController<E>::generateMaze() {
     if (!this->hasMaze()) {
         this->resetGrid();
-        MG_Algorithm::generateMaze<E>(this->grid.getNodes()[0], this->grid.getNodes());
+        MG_Algorithm::generateMaze<E>(this->grid);
         this->setHasMaze(true);
     }
 }
@@ -174,11 +174,11 @@ template<typename E> void GridController<E>::mouseUpdateLogic(E* node, MouseStat
                 break;
             } else if (hasStart()) {
                 if (getStartNode() == node) {
-                    node->update(Node::Type::NONE);
+                    node->update(Node::Type::HOVER);
                     setStartNode(nullptr);
                 } else if (hasEnd()) {
                     if (getEndNode() == node) {
-                        node->update(Node::Type::NONE);
+                        node->update(Node::Type::HOVER);
                         setEndNode(nullptr);
                     }
                 } else {
@@ -189,7 +189,7 @@ template<typename E> void GridController<E>::mouseUpdateLogic(E* node, MouseStat
                 node->update(Node::Type::START);
                 setStartNode(node);
             } else {
-                node->update(Node::Type::NONE);
+                node->update(Node::Type::HOVER);
                 setEndNode(nullptr);
 	     }
             break;
@@ -200,7 +200,7 @@ template<typename E> void GridController<E>::mouseUpdateLogic(E* node, MouseStat
             break;
         default:
             if (curType == Node::Type::NONE) {
-                node->update(Node::Type::NONE);
+                node->update(Node::Type::HOVER);
             }
             break;
     }

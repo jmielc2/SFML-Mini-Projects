@@ -14,8 +14,9 @@ public:
     ~Grid();
 
     // Getters & Setters
-    std::vector<E*> getNodes();
-    E* getNode(int x, int y);
+    std::vector<E*> getNodes() const;
+    E* getNode(int x, int y) const;
+    bool isValidNode(int x, int y) const;
     void setController(GridController<E>* controller);
     GridController<E>* getController() const;
 
@@ -58,15 +59,16 @@ template <typename E> void Grid<E>::reset() {
     }
 }
 
-template <typename E> std::vector<E*> Grid<E>::getNodes() {
+template <typename E> std::vector<E*> Grid<E>::getNodes() const {
     return this->nodes;
 }
 
-template <typename E> E* Grid<E>::getNode(int x, int y) {
-    if (y * DIM_X + x >= (int) this->nodes.size()) {
-        return this->nodes.back();
-    }
+template <typename E> E* Grid<E>::getNode(int x, int y) const {
     return this->nodes.at(y * DIM_X + x);
+}
+
+template <typename E> bool Grid<E>::isValidNode(int x, int y) const {
+    return  !(x < 0 || y < 0 || x >= DIM_X || y >= DIM_Y);
 }
 
 template <typename E> void Grid<E>::setController(GridController<E>* controller) {

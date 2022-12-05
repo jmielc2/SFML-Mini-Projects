@@ -8,7 +8,7 @@
 class Node {
 public:
     // General
-    enum Type {START, END, NONE, PATH, WALL, VISITED};
+    enum Type {START, END, NONE, HOVER, PATH, WALL, VISITED};
 
     // Getters & Setters
     Node::Type getType() const;

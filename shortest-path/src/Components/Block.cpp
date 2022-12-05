@@ -29,24 +29,27 @@ void Block::reset() {
 void Block::update(Node::Type type) {
     this->setType(type);
     switch (type) {
-        case(Node::Type::END):
-            this->sprite.setFillColor(sf::Color::Red);
-            break;
-        case(Node::Type::NONE):
-            this->sprite.setFillColor(sf::Color(0xD2D1D0ff));
-            break;
-        case(Node::Type::PATH):
-            this->sprite.setFillColor(sf::Color::Blue);
-            break;
-        case(Node::Type::START):
-            this->sprite.setFillColor(sf::Color::Green);
-            break;
-        case(Node::Type::WALL):
-            this->sprite.setFillColor(sf::Color::Black);
-            break;
-        case(Node::Type::VISITED):
-            this->sprite.setFillColor(sf::Color::Yellow);
-            break;
+    case(Node::Type::END):
+        this->sprite.setFillColor(sf::Color::Red);
+        break;
+    case(Node::Type::HOVER):
+        this->sprite.setFillColor(sf::Color(0xD2D1D0ff));
+        break;
+    case(Node::Type::NONE):
+        this->sprite.setFillColor(sf::Color::White);
+        break;
+    case(Node::Type::PATH):
+        this->sprite.setFillColor(sf::Color::Blue);
+        break;
+    case(Node::Type::START):
+        this->sprite.setFillColor(sf::Color::Green);
+        break;
+    case(Node::Type::WALL):
+        this->sprite.setFillColor(sf::Color::Black);
+        break;
+    case(Node::Type::VISITED):
+        this->sprite.setFillColor(sf::Color::Yellow);
+        break;
     }
 }
 
