@@ -3,5 +3,5 @@ CONTROLS:
     Left Click      Set Start/End Points
     Right Click     Build Wall
     R               Reset Grid
+    M               Generate Maze
     ENTER           Find Shortest Path
-    

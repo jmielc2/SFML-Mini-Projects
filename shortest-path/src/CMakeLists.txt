@@ -16,7 +16,7 @@ set(SFML_DEPENDENCIES ${CMAKE_CURRENT_SOURCE_DIR}/../../SFML)
 add_executable(path Main.cpp stdafx.cpp
                     Controllers/App.cpp Controllers/GridController.cpp
                     Components/Block.cpp Components/Grid.cpp Components/Node.cpp
-                    Tools/SP_Algorithm.cpp)
+                    Tools/SP_Algorithm.cpp Tools/MG_Algorithm.cpp)
 
 # External Header Files
 target_include_directories(path PUBLIC ${SFML_DEPENDENCIES}/include)
@@ -24,9 +24,9 @@ target_include_directories(path PUBLIC ${SFML_DEPENDENCIES}/include)
 # Additional Compile Flags
 option(RELEASE "Build release version" OFF)
 if (RELEASE)
-    set(GCC_ADDITIONAL_FLAGS "-Wall -O2")
+    set(GCC_ADDITIONAL_FLAGS "-Wall -O3 -DDEBUG=0")
 else()
-    set(GCC_ADDITIONAL_FLAGS "-Wall -g")
+    set(GCC_ADDITIONAL_FLAGS "-Wall -g -DDEBUG=1")
 endif()
 add_definitions(${GCC_ADDITIONAL_FLAGS})
 

@@ -6,6 +6,7 @@
 #include "../stdafx.hpp"
 #include "../Components/Grid.hpp"
 #include "../Tools/SP_Algorithm.hpp"
+#include "../Tools/MG_Algorithm.hpp"
 
 template <typename E>
 class GridController {
@@ -18,8 +19,10 @@ public:
     // Functions
     bool hasStart() const;
     bool hasEnd() const;
+    bool hasMaze() const;
     void findPath();
     void resetGrid();
+    void generateMaze();
 
     // Getters & Setters
     GridController::Phase getPhase() const;
@@ -27,6 +30,7 @@ public:
     E* getEndNode() const;
     void setStartNode(E* node);
     void setEndNode(E* node);
+    void setHasMaze(bool maze);
 
     void drawGrid(sf::RenderWindow* window);
     void mouseUpdate(sf::Vector2i &pos, MouseState state);
@@ -37,6 +41,7 @@ private:
     E* end;
     GridController::Phase phase;
     E* resetNode;
+    bool maze;
 
     void setPhase(GridController::Phase phase);
     void mouseUpdateLogic(E* node, MouseState state);
@@ -67,6 +72,7 @@ template<typename E> GridController<E>::GridController() {
     this->start = nullptr;
     this->end = nullptr;
     this->phase = GridController::Phase::SETUP;
+    this->maze = false;
 }
 
 template <typename E> void GridController<E>::resetGrid() {
@@ -74,6 +80,15 @@ template <typename E> void GridController<E>::resetGrid() {
     this->setStartNode(nullptr);
     this->setEndNode(nullptr);
     this->setPhase(GridController<E>::Phase::SETUP);
+    this->setHasMaze(false);
+}
+
+template <typename E> void GridController<E>::generateMaze() {
+    if (!this->hasMaze()) {
+        this->resetGrid();
+        MG_Algorithm::generateMaze<E>(this->grid.getNodes()[0], this->grid.getNodes());
+        this->setHasMaze(true);
+    }
 }
 
 template<typename E> GridController<E>::~GridController() {
@@ -86,6 +101,10 @@ template<typename E> bool GridController<E>::hasStart() const {
 
 template<typename E> bool GridController<E>::hasEnd() const {
     return end != nullptr;
+}
+
+template<typename E> bool GridController<E>::hasMaze() const {
+    return this->maze;
 }
 
 template<typename E> void GridController<E>::findPath() {
@@ -129,6 +148,10 @@ template<typename E> void GridController<E>::setStartNode(E* start) {
 
 template<typename E> void GridController<E>::setEndNode(E* end) {
     this->end = end;
+}
+
+template<typename E> void GridController<E>::setHasMaze(bool maze) {
+    this->maze = maze;
 }
 
 template<typename E> void GridController<E>::setPhase(GridController<E>::Phase phase) {

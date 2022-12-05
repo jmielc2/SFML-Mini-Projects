@@ -77,11 +77,15 @@ void App::processKeyEvents() {
                 App::gridController.findPath();
             } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) {
                 this->gridController.resetGrid();
+            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M)) {
+                this->gridController.generateMaze();
             }
             break;
         case (GridController<Block>::Phase::DONE):
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) {
                 this->gridController.resetGrid();
+            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M)) {
+                this->gridController.generateMaze();
             }
             break;
         default:
