@@ -24,6 +24,7 @@ private:
         }
     };
     static std::map<int, sf::Vector2i> directions;
+    template <typename E> static bool isWall(const Grid<E> &grid, MG_Algorithm::entry &node, int i);
     template <typename E> static bool canClearWall(const Grid<E> &grid, MG_Algorithm::entry &node);
 };
 
@@ -49,7 +50,7 @@ template <typename E> void MG_Algorithm::generateMaze(const Grid<E> &grid) {
         }
         ref->update(Node::Type::NONE);
         explored.insert(ref);
-        if (rand() % 100 >= 25) {
+        if (rand() % 100 >= 35) {
             node.dir = rand() % 4;
         }
 
@@ -71,17 +72,31 @@ template <typename E> void MG_Algorithm::generateMaze(const Grid<E> &grid) {
     }
 }
 
+template <typename E> bool MG_Algorithm::isWall(const Grid<E> &grid, MG_Algorithm::entry &node, int i) {
+    int tempX = node.x + MG_Algorithm::directions[i].x;
+    int tempY = node.y + MG_Algorithm::directions[i].y;
+    return (!grid.isValidNode(tempX, tempY) || grid.getNode(tempX, tempY)->getType() == Node::Type::WALL);
+}
+
 template <typename E> bool MG_Algorithm::canClearWall(const Grid<E> &grid, MG_Algorithm::entry &node) {
     if (!grid.isValidNode(node.x, node.y)) {
         return true;
     }
     int count = 0;
-    for (int i = 0; i < 8; i++) {
-        int tempX = node.x + MG_Algorithm::directions[i].x;
-        int tempY = node.y + MG_Algorithm::directions[i].y;
-        if (!grid.isValidNode(tempX, tempY) || grid.getNode(tempX, tempY)->getType() == Node::Type::WALL) {
-            count++;
-        }
+    for (int i = 0; i < 4; i++) {
+        count += (isWall(grid, node, i))? 1 : 0;
+    }
+    if (node.dir == UP || node.dir == RIGHT) {
+        count += (isWall(grid, node, UP_RIGHT))? 1 : 0;
+    }
+    if (node.dir == RIGHT || node.dir == DOWN) {
+        count += (isWall(grid, node, DOWN_RIGHT))? 1 : 0;
+    }
+    if (node.dir == DOWN || node.dir == LEFT) {
+        count += (isWall(grid, node, DOWN_LEFT))? 1 : 0;
+    }
+    if (node.dir == LEFT || node.dir == UP) {
+        count += (isWall(grid, node, UP_LEFT))? 1 : 0;
     }
     return count >= 5;
 }
