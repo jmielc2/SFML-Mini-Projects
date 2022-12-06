@@ -16,13 +16,13 @@
 #include <random>
 #include <SFML/Graphics.hpp>
 
-#define WINDOW_HEIGHT 700
-#define WINDOW_WIDTH  700
-#define DIM_X 25
-#define DIM_Y 25
+#define WINDOW_HEIGHT 700.0f
+#define WINDOW_WIDTH  700.0f
+#define DIM_X 51
+#define DIM_Y 51
 
 enum MouseState {HOVER, RIGHT_CLICK, LEFT_CLICK, RIGHT_HOLD, LEFT_HOLD};
-enum {UP=0, RIGHT, DOWN, LEFT, UP_RIGHT, UP_LEFT, DOWN_RIGHT, DOWN_LEFT};
+enum {UP=0, RIGHT, DOWN, LEFT};
 
 #if (NDEBUG)
     #define LOG(x) std::cout << x << std::endl;

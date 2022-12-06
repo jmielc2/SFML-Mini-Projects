@@ -4,11 +4,12 @@
 #define SP_ALGORITHM_HPP
 
 #include "../stdafx.hpp"
+#include "../Components/Grid.hpp"
 #include "../Components/Node.hpp"
 
 class SP_Algorithm {
 public:
-    template <typename E> static std::vector<E*> shortestPath(E* start, E* end, const std::vector<E*> &grid);
+    template <typename E> static std::vector<E*> shortestPath(E* start, E* end, const Grid<E> &grid);
 
 private:
     template <typename E> static std::vector<E*> getNodeNeighbors(const E* cur, const std::vector<E*> &grid);
@@ -17,11 +18,12 @@ private:
 
 ////////////////////////////////////////////////////////////
 
-template <typename E> std::vector<E*> SP_Algorithm::shortestPath(E* start, E* end, const std::vector<E*> &grid) {
+// Uses Dijkstra's Algorithm to find shortest path from start to end nodes.
+template <typename E> std::vector<E*> SP_Algorithm::shortestPath(E* start, E* end, const Grid<E> &grid) {
     std::priority_queue<E*, std::vector<E*>, Node::NodeComparator<E>> unvisited;
     std::vector<E*> visited;
     
-    for (E* node : grid) {
+    for (E* node : grid.getNodes()) {
         if (node == start) {
             node->setDistance(0);
             unvisited.emplace(node);
@@ -39,7 +41,7 @@ template <typename E> std::vector<E*> SP_Algorithm::shortestPath(E* start, E* en
             break;
         }
 
-        std::vector<E*> neighbors = SP_Algorithm::getNodeNeighbors(cur, grid);
+        std::vector<E*> neighbors = SP_Algorithm::getNodeNeighbors(cur, grid.getNodes());
         for (E* neighbor : neighbors) {
             int altDistance = 1 + cur->getDistance();
             if (altDistance < neighbor->getDistance()) {

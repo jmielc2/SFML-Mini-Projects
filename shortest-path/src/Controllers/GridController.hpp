@@ -110,7 +110,7 @@ template<typename E> bool GridController<E>::hasMaze() const {
 template<typename E> void GridController<E>::findPath() {
     if (this->hasStart() && this->hasEnd()) {
         this->setPhase(GridController::Phase::SOLVING);
-        std::vector<E*> visited = SP_Algorithm::shortestPath<E>(this->getStartNode(), this->getEndNode(), this->grid.getNodes());
+        std::vector<E*> visited = SP_Algorithm::shortestPath<E>(this->getStartNode(), this->getEndNode(), this->grid);
         for (int i = 1; i < (int) visited.size() - 1; i++) {
             visited[i]->update(Node::Type::VISITED);
         }

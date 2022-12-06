@@ -30,12 +30,12 @@ private:
 
 //////////////////////////////////////////////
 
+// Uses a variation of DFS algorithm to create the maze.
 template <typename E> void MG_Algorithm::generateMaze(const Grid<E> &grid) {
     for (E* node : grid.getNodes()) {
         node->update(Node::Type::WALL);
     }
-    int x = rand() % DIM_X;
-    int y = rand() % DIM_Y;
+    int x = 0, y = 0;
     int dir = rand() % 4;
     std::stack<entry> record;
     std::set<E*> explored;
@@ -45,7 +45,7 @@ template <typename E> void MG_Algorithm::generateMaze(const Grid<E> &grid) {
         entry node = record.top();
         record.pop();
         E* ref = grid.getNode(node.x, node.y);
-        if ((explored.count(ref) || !canClearWall(grid, node))) {
+        if (explored.count(ref) || !canClearWall(grid, node)) {
             continue;
         }
         ref->update(Node::Type::NONE);
@@ -81,9 +81,6 @@ template <typename E> bool MG_Algorithm::isWall(const Grid<E> &grid, MG_Algorith
 }
 
 template <typename E> bool MG_Algorithm::canClearWall(const Grid<E> &grid, MG_Algorithm::entry &node) {
-    if (!grid.isValidNode(node.x, node.y)) {
-        return true;
-    }
     int count = 0;
     for (int i = 0; i < 4; i++) {
         count += (isWall(grid, node, i))? 1 : 0;

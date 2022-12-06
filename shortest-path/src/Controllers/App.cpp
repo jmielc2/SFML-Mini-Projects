@@ -5,7 +5,7 @@ App::State App::appState = App::State::RUNNING;
 GridController<Block> App::gridController;
 MouseState App::mouseState = MouseState::HOVER;
 
-sf::RenderWindow* App::window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Shortest Path Finder", sf::Style::Titlebar | sf::Style::Close);
+sf::RenderWindow* App::window = new sf::RenderWindow(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Maze Creator & Solver", sf::Style::Titlebar | sf::Style::Close);
 sf::Event App::event;
 
 static void printCommands(std::string file) {
