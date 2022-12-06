@@ -18,12 +18,12 @@
 
 #define WINDOW_HEIGHT 700
 #define WINDOW_WIDTH  700
-#define DIM_X 20
-#define DIM_Y 20
+#define DIM_X 25
+#define DIM_Y 25
 enum MouseState {HOVER, RIGHT_CLICK, LEFT_CLICK, RIGHT_HOLD, LEFT_HOLD};
 enum {UP=0, RIGHT, DOWN, LEFT, UP_RIGHT, UP_LEFT, DOWN_RIGHT, DOWN_LEFT};
 
-#if (DEBUG)
+#if (NDEBUG)
     #define LOG(x) std::cout << x << std::endl;
 #else
     #define LOG(x)

@@ -16,7 +16,6 @@ public:
 private:
     struct entry {
         int dir, x, y;
-
         entry(int dir, int x, int y) {
             this->dir = dir;
             this->x = x;
@@ -45,12 +44,12 @@ template <typename E> void MG_Algorithm::generateMaze(const Grid<E> &grid) {
         entry node = record.top();
         record.pop();
         E* ref = grid.getNode(node.x, node.y);
-        if (explored.count(ref) || !canClearWall(grid, node)) {
+        if ((explored.count(ref) || !canClearWall(grid, node))) {
             continue;
         }
         ref->update(Node::Type::NONE);
         explored.insert(ref);
-        if (rand() % 100 >= 35) {
+        if (rand() % 100 >= 25) {
             node.dir = rand() % 4;
         }
 
@@ -73,9 +72,9 @@ template <typename E> void MG_Algorithm::generateMaze(const Grid<E> &grid) {
 }
 
 template <typename E> bool MG_Algorithm::isWall(const Grid<E> &grid, MG_Algorithm::entry &node, int i) {
-    int tempX = node.x + MG_Algorithm::directions[i].x;
-    int tempY = node.y + MG_Algorithm::directions[i].y;
-    return (!grid.isValidNode(tempX, tempY) || grid.getNode(tempX, tempY)->getType() == Node::Type::WALL);
+    int x = node.x + MG_Algorithm::directions[i].x;
+    int y = node.y + MG_Algorithm::directions[i].y;
+    return (!grid.isValidNode(x, y) || grid.getNode(x, y)->getType() == Node::Type::WALL);
 }
 
 template <typename E> bool MG_Algorithm::canClearWall(const Grid<E> &grid, MG_Algorithm::entry &node) {
