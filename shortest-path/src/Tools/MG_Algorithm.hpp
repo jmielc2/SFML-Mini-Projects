@@ -12,14 +12,15 @@ class MG_Algorithm {
 public:
     static void init();
     template <typename E> static void generateMaze(const Grid<E> &grid);
-
 private:
     struct entry {
         int dir, x, y;
-        entry(int dir, int x, int y) {
+        bool check;
+        entry(int dir, int x, int y, bool check) {
             this->dir = dir;
             this->x = x;
             this->y = y;
+            this->check = check;
         }
     };
     static std::map<int, sf::Vector2i> directions;
@@ -39,7 +40,7 @@ template <typename E> void MG_Algorithm::generateMaze(const Grid<E> &grid) {
     std::stack<entry> record;
     std::set<E*> explored;
 
-    record.push(MG_Algorithm::entry(dir, x, y));
+    record.push(MG_Algorithm::entry(dir, x, y, true));
     while (!record.empty()) {
         entry node = record.top();
         record.pop();
@@ -49,24 +50,26 @@ template <typename E> void MG_Algorithm::generateMaze(const Grid<E> &grid) {
         }
         ref->update(Node::Type::NONE);
         explored.insert(ref);
-        if (rand() % 100 >= 25) {
-            node.dir = rand() % 4;
-        }
-
-        for (int i = 0; i < 4; i++) {
-            if (i == node.dir) {
-                continue;
+        if (node.check) {
+            if (rand() % 100 >= 35) {
+                node.dir = rand() % 4;
             }
-            x = node.x + directions[i].x;
-            y = node.y + directions[i].y;
-            if (grid.isValidNode(x, y)) {
-                record.push(MG_Algorithm::entry(i, x, y));
+
+            for (int i = 0; i < 4; i++) {
+                if (i == node.dir) {
+                    continue;
+                }
+                x = node.x + directions[i].x;
+                y = node.y + directions[i].y;
+                if (grid.isValidNode(x, y)) {
+                    record.push(MG_Algorithm::entry(i, x, y, !node.check));
+                }
             }
         }
         x = node.x + directions[node.dir].x;
         y = node.y + directions[node.dir].y;
         if (grid.isValidNode(x, y)) {
-            record.push(MG_Algorithm::entry(node.dir, x, y));
+            record.push(MG_Algorithm::entry(node.dir, x, y, !node.check));
         }
     }
 }
@@ -85,19 +88,7 @@ template <typename E> bool MG_Algorithm::canClearWall(const Grid<E> &grid, MG_Al
     for (int i = 0; i < 4; i++) {
         count += (isWall(grid, node, i))? 1 : 0;
     }
-    if (node.dir == UP || node.dir == RIGHT) {
-        count += (isWall(grid, node, UP_RIGHT))? 1 : 0;
-    }
-    if (node.dir == RIGHT || node.dir == DOWN) {
-        count += (isWall(grid, node, DOWN_RIGHT))? 1 : 0;
-    }
-    if (node.dir == DOWN || node.dir == LEFT) {
-        count += (isWall(grid, node, DOWN_LEFT))? 1 : 0;
-    }
-    if (node.dir == LEFT || node.dir == UP) {
-        count += (isWall(grid, node, UP_LEFT))? 1 : 0;
-    }
-    return count >= 5;
+    return count >= 3;
 }
 
 #endif
